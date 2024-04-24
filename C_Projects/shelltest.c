@@ -6,8 +6,8 @@
 #define BAUDRATE CBR_19200
 #define MODBUS_SLAVE_ADDR 0x02
 #define MODBUS_READ_FUNC 0x03
-#define MODBUS_START_ADDR 0x08FD
-#define MODBUS_NUM_REGS 0x02 // Number of holding registers to read
+#define MODBUS_START_ADDR 42301
+#define MODBUS_NUM_REGS 0x01 // Number of holding registers to read
 
 int main() {
     HANDLE hSerial;
@@ -60,8 +60,8 @@ int main() {
     };
 
     // Calculate CRC (just set to 0 for simplicity)
-    request[6] = 0x57;
-    request[7] = 0xA8;
+    request[6] = 0;
+    request[7] = 0;
 
     DWORD bytes_written;
     if (!WriteFile(hSerial, request, sizeof(request), &bytes_written, NULL)) {
@@ -83,6 +83,7 @@ int main() {
         printf("%02X ", response[i]); // Print each byte in hexadecimal format
     }
     printf("\n");
+    printf("%lu",bytes_read);
     // Process response
     // Assuming Modbus RTU response format: [SlaveAddr FuncCode ByteCount Data CRC]
     // You need to parse the response according to the Modbus protocol
