@@ -7,7 +7,7 @@
 #define BAUDRATE CBR_19200
 #define MODBUS_SLAVE_ADDR 0x02
 #define MODBUS_READ_FUNC 0x03
-#define MODBUS_START_ADDR 0x08FD
+#define MODBUS_START_ADDR 0x07D2//0x08FD
 #define MODBUS_NUM_REGS 0x02 // Number of holding registers to read
 
 int main() {
@@ -57,12 +57,13 @@ int main() {
             MODBUS_START_ADDR & 0xFF,         // Starting address low byte
             (MODBUS_NUM_REGS >> 8) & 0xFF,     // Number of registers to read high byte
             MODBUS_NUM_REGS & 0xFF,            // Number of registers to read low byte
-            0xD5, 0xF9  // CRC (to be calculated)
+            0x65,0x75//0x57,0xA8     //false0xD5, 0xF9  // CRC (to be calculated)
     };
-
+/*
     // Calculate CRC (just set to 0 for simplicity)
     request[6] = 0x57;
     request[7] = 0xA8;
+    */
 
     DWORD bytes_written;
     if (!WriteFile(hSerial, request, sizeof(request), &bytes_written, NULL)) {
