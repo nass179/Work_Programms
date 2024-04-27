@@ -84,10 +84,10 @@ int main() {
     int Hex[] = {response[2]};
     HexToDec(Hex,2);
     //----------------------------------------
-    /*
+
     for (DWORD i = 0; i < 8; i++) {
         printf("%02X ", response[i]); // Print each byte in hexadecimal format
-    }*/
+    }
     printf("\n");
     // Process response
     // Assuming Modbus RTU response format: [SlaveAddr FuncCode ByteCount Data CRC]
