@@ -61,6 +61,12 @@ build CMakeFiles/C_Projects.dir/Modbus_RTU.c.obj: C_COMPILER__C_Projects_unscann
   OBJECT_DIR = CMakeFiles\C_Projects.dir
   OBJECT_FILE_DIR = CMakeFiles\C_Projects.dir
 
+build CMakeFiles/C_Projects.dir/test.c.obj: C_COMPILER__C_Projects_unscanned_Debug C$:/Users/henry/Desktop/Work_Programms/C_Projects/test.c || cmake_object_order_depends_target_C_Projects
+  DEP_FILE = CMakeFiles\C_Projects.dir\test.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\C_Projects.dir
+  OBJECT_FILE_DIR = CMakeFiles\C_Projects.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target C_Projects
@@ -69,7 +75,7 @@ build CMakeFiles/C_Projects.dir/Modbus_RTU.c.obj: C_COMPILER__C_Projects_unscann
 #############################################
 # Link the executable C_Projects.exe
 
-build C_Projects.exe: C_EXECUTABLE_LINKER__C_Projects_Debug CMakeFiles/C_Projects.dir/main.c.obj CMakeFiles/C_Projects.dir/Modbus_RTU.c.obj
+build C_Projects.exe: C_EXECUTABLE_LINKER__C_Projects_Debug CMakeFiles/C_Projects.dir/main.c.obj CMakeFiles/C_Projects.dir/Modbus_RTU.c.obj CMakeFiles/C_Projects.dir/test.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\C_Projects.dir

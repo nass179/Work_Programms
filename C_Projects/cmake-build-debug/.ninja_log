@@ -1,6 +1,6 @@
 # ninja log v5
 4	988	7342735895695403	CMakeFiles/C_Projects.dir/main.c.obj	43589ae544ebf4fa
-0	177	7354943719718779	build.ninja	78c04beff7d9bce1
+0	177	7360790494046250	build.ninja	78c04beff7d9bce1
 989	1135	7342735897137875	C_Projects.exe	c608cf2f0b42920c
 3	86	7342676727674535	CMakeFiles/C_Projects.dir/modtest.c.obj	e4147dd78b917f77
 3	1105	7342731338144104	CMakeFiles/C_Projects.dir/Modbus_RTU.c.obj	4c4e0422461c46d2
