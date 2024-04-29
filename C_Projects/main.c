@@ -57,7 +57,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         case WM_PAINT: {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hwnd, &ps);
-            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+            DrawText(hdc, "Hello, Windows!", -1, &rect, DT_LEFT | DT_TOP | DT_SINGLELINE);
             EndPaint(hwnd, &ps);
             return 0;
         }
