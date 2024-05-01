@@ -1,0 +1,9 @@
+{
+  "noarch": {
+    "entry_points": [
+      "automat-visualize = automat._visualize:tool"
+    ],
+    "type": "python"
+  },
+  "package_metadata_version": 1
+}

@@ -1,15 +1,32 @@
 import tkinter as tk
-from tkinter import ttk
-#import Modbus_Communication
-#from Modbus_Communication import client
-window = tk.Tk()
-window.title("ModbusRTU Master")
-window.geometry("600x600")
-frm = ttk.Frame(window, padding = 10)
-frm.grid()
-ttk.Label(frm, text = 'ModbusRtu').grid(column = 0, row = 0)
-ttk.Button(frm, text="Quitttt", command=window.destroy).grid(column=0, row=10)
-ttk.Button(frm, text="Quit", command=window.destroy).grid(column = 0, row = 1)
-#tk.Label(frm, text = "test").grid(column=0, row=0)
 
-window.mainloop()
+root = tk.Tk()
+
+root.geometry("800x500")
+root.title("ModbusRTUClient")
+
+label = tk.Label(root, text = "test", font = ('Arial, 18'))
+label.pack(padx=20, pady=20)
+
+textbox = tk.Text(root, height=3, font=('Arial', 16))
+textbox.pack(padx=10, pady=10)
+
+buttonframe = tk.Frame(root)
+buttonframe.columnconfigure(0, weight=1)
+buttonframe.columnconfigure(1, weight=1)
+buttonframe.columnconfigure(2, weight=1)
+
+btn1 = tk.Button(buttonframe, text="1", font=('Arial', 18))
+btn1.grid(row=0, column=0, sticky=tk.W+tk.E)
+
+btn1 = tk.Button(buttonframe, text="2", font=('Arial', 18))
+btn1.grid(row=0, column=1, sticky=tk.W+tk.E)
+
+btn1 = tk.Button(buttonframe, text="3", font=('Arial', 18))
+btn1.grid(row=0, column=2, sticky=tk.W+tk.E)
+
+btn1 = tk.Button(buttonframe, text="4", font=('Arial', 18))
+btn1.grid(row=1, column=0, sticky=tk.W+tk.E)
+
+buttonframe.pack(fill="x")
+root.mainloop()

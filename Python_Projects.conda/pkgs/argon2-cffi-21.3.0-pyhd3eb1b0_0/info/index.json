@@ -1,0 +1,21 @@
+{
+  "arch": null,
+  "build": "pyhd3eb1b0_0",
+  "build_number": 0,
+  "constrains": [
+    "argon2_cffi ==999"
+  ],
+  "depends": [
+    "argon2-cffi-bindings",
+    "python >=3.6",
+    "typing-extensions"
+  ],
+  "license": "MIT",
+  "license_family": "MIT",
+  "name": "argon2-cffi",
+  "noarch": "python",
+  "platform": null,
+  "subdir": "noarch",
+  "timestamp": 1645000255221,
+  "version": "21.3.0"
+}

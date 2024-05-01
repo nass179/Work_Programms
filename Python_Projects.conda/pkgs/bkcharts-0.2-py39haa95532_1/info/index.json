@@ -1,0 +1,18 @@
+{
+  "arch": "x86_64",
+  "build": "py39haa95532_1",
+  "build_number": 1,
+  "depends": [
+    "numpy >=1.7.1",
+    "pandas",
+    "python >=3.9,<3.10.0a0",
+    "six >=1.5.2"
+  ],
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "name": "bkcharts",
+  "platform": "win",
+  "subdir": "win-64",
+  "timestamp": 1657175894138,
+  "version": "0.2"
+}

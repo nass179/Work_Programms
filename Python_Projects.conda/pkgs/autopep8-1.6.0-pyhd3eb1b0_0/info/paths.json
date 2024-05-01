@@ -1,0 +1,71 @@
+{
+  "paths": [
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/AUTHORS.rst",
+      "path_type": "hardlink",
+      "sha256": "b624cfb1bcc697d76d5c23045976d6495d736a7d4cf81a16b628b1b38e862169",
+      "size_in_bytes": 2003
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/INSTALLER",
+      "path_type": "hardlink",
+      "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+      "size_in_bytes": 5
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/LICENSE",
+      "path_type": "hardlink",
+      "sha256": "8d1d0238e48543441914cab0741d4de3e070a1b8367f787af5f209afb60b096a",
+      "size_in_bytes": 1181
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/METADATA",
+      "path_type": "hardlink",
+      "sha256": "5b812910aba9dc416ce1d001df38be60d2600abc3339e3f2eb2a074c394ab558",
+      "size_in_bytes": 16873
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/RECORD",
+      "path_type": "hardlink",
+      "sha256": "3a12d997b56747efc8474fefbfa027fe66425d732678a2e78fe12712eaaee8d6",
+      "size_in_bytes": 1050
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/REQUESTED",
+      "path_type": "hardlink",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_in_bytes": 0
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/WHEEL",
+      "path_type": "hardlink",
+      "sha256": "5b367c7308e1f25d23b542cd8d8ab51e9afe582a824603ebfbe4d7e0fe48d56a",
+      "size_in_bytes": 110
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/direct_url.json",
+      "path_type": "hardlink",
+      "sha256": "0cdefe3322d7648a7e6f0705be3bfde63532636a654da466a18754efe8e0eed7",
+      "size_in_bytes": 82
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/entry_points.txt",
+      "path_type": "hardlink",
+      "sha256": "88735ae7f7125f0d9a6e555b4667e2146306d4236ba443d10848e7de7b29689f",
+      "size_in_bytes": 44
+    },
+    {
+      "_path": "site-packages/autopep8-1.6.0.dist-info/top_level.txt",
+      "path_type": "hardlink",
+      "sha256": "b36c7e762dd00701b1afb91de7112bb76a689bc76c15174835b9b0b0e1202df5",
+      "size_in_bytes": 9
+    },
+    {
+      "_path": "site-packages/autopep8.py",
+      "path_type": "hardlink",
+      "sha256": "ffa4e990b7e1cc20ebb14d2393f04d6cf2dafec28c9f1d59b66ada001b670175",
+      "size_in_bytes": 155367
+    }
+  ],
+  "paths_version": 1
+}

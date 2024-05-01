@@ -1,0 +1,37 @@
+# This file created by conda-build 3.21.6
+# meta.yaml template originally from:
+# C:\ci\containers\000035ccomk\tmp\build\80754af9\rsync-recipes\anaconda-custom-python_3.9-on-winbuilder, last modified Mon Nov 15 10:22:37 2021
+# ------------------------------------------------
+
+package:
+  name: anaconda
+  version: custom
+build:
+  number: '1'
+  string: py39_1
+requirements:
+  host:
+    - ca-certificates 2021.10.26 haa95532_2
+    - openssl 1.1.1l h2bbff1b_0
+    - python 3.9.7 h6244533_1
+    - sqlite 3.36.0 h2bbff1b_0
+    - tzdata 2021e hda174b7_0
+    - vc 14.2 h21ff451_1
+    - vs2015_runtime 14.27.29016 h5e58377_2
+  run:
+    - _anaconda_depends
+    - python >=3.9,<3.10.0a0
+about:
+  description: 'Anaconda is a Python distribution which includes over 400
+
+    Python packages for science, math, engineering, and data analysis.
+
+    '
+  dev_url: https://github.com/ContinuumIO/anaconda
+  doc_url: https://docs.anaconda.com/anaconda
+  home: https://www.anaconda.com/distribution
+  license: BSD
+  summary: Simplifies package management and deployment of Anaconda
+extra:
+  copy_test_source_files: true
+  final: true

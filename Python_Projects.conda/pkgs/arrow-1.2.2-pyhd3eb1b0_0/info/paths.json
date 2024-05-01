@@ -1,0 +1,119 @@
+{
+  "paths": [
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/INSTALLER",
+      "path_type": "hardlink",
+      "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+      "size_in_bytes": 5
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/LICENSE",
+      "path_type": "hardlink",
+      "sha256": "40d6e1255d7151f5f041a514725d3c94ffa8c1881e5a0c29b6bea93f03e2e3bb",
+      "size_in_bytes": 11341
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/METADATA",
+      "path_type": "hardlink",
+      "sha256": "52d1f6795e4502bcc35e7a9340b9402948b6ef97ac10ea2f129c6595ab077043",
+      "size_in_bytes": 6958
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/RECORD",
+      "path_type": "hardlink",
+      "sha256": "4705e581d164f32b981d76422f58a8750d765e31241047e5adcdbe3ab628634e",
+      "size_in_bytes": 1899
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/REQUESTED",
+      "path_type": "hardlink",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_in_bytes": 0
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/WHEEL",
+      "path_type": "hardlink",
+      "sha256": "1b5e87e00dc87a84269cead8578b9e6462928e18a95f1f3373c9eef451a5bcc0",
+      "size_in_bytes": 92
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/direct_url.json",
+      "path_type": "hardlink",
+      "sha256": "aacf9c3e4bf8991665f85d8b4896e03a766349ea466affb41e10d61c6a7f3bb9",
+      "size_in_bytes": 79
+    },
+    {
+      "_path": "site-packages/arrow-1.2.2.dist-info/top_level.txt",
+      "path_type": "hardlink",
+      "sha256": "68205384ad91201f36e1cb48de5f62eb3f7897c518a4517e042e26ddd0f3145a",
+      "size_in_bytes": 6
+    },
+    {
+      "_path": "site-packages/arrow/__init__.py",
+      "path_type": "hardlink",
+      "sha256": "1f1b12246979e86a1e1c1fff368fa4746982fd67acfd3b5fd2884ecbb3a81628",
+      "size_in_bytes": 872
+    },
+    {
+      "_path": "site-packages/arrow/_version.py",
+      "path_type": "hardlink",
+      "sha256": "bae7f854db53340f777cc86802eafd61a7f368a2459dccd8f87d524824ae4554",
+      "size_in_bytes": 22
+    },
+    {
+      "_path": "site-packages/arrow/api.py",
+      "path_type": "hardlink",
+      "sha256": "ead76aac6d0d8eb28edb6fde5875386b9c5eadf47a22b64f63ecb29c6a67bd33",
+      "size_in_bytes": 2755
+    },
+    {
+      "_path": "site-packages/arrow/arrow.py",
+      "path_type": "hardlink",
+      "sha256": "87b7f3d4f659b837bf49a8b0baff4ebfec0fc8770ee83d23ac4fd4f71809b1f7",
+      "size_in_bytes": 63570
+    },
+    {
+      "_path": "site-packages/arrow/constants.py",
+      "path_type": "hardlink",
+      "sha256": "09bc3084b46622d9fb5558e56f4b9e1b0ecdf8c37a039653cf2d2a15eee9ca40",
+      "size_in_bytes": 3121
+    },
+    {
+      "_path": "site-packages/arrow/factory.py",
+      "path_type": "hardlink",
+      "sha256": "7563f75c861f623aa9ec308e7446000fb3d07ec6e9404ef43e1f4e4b50352e71",
+      "size_in_bytes": 11435
+    },
+    {
+      "_path": "site-packages/arrow/formatter.py",
+      "path_type": "hardlink",
+      "sha256": "629618f23786647d2c823736dcf066f0729ff843072e9fbc51ae765dfad580f4",
+      "size_in_bytes": 5271
+    },
+    {
+      "_path": "site-packages/arrow/locales.py",
+      "path_type": "hardlink",
+      "sha256": "99302f9413f088e1e6e934921f31a9461bb28180d9a6a75d6f4e51498ca15cb9",
+      "size_in_bytes": 141945
+    },
+    {
+      "_path": "site-packages/arrow/parser.py",
+      "path_type": "hardlink",
+      "sha256": "8a7818e1ac403b8d2411850bf0cc2a4c88457a0080568b83664ddce183acf5a2",
+      "size_in_bytes": 25720
+    },
+    {
+      "_path": "site-packages/arrow/py.typed",
+      "path_type": "hardlink",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_in_bytes": 0
+    },
+    {
+      "_path": "site-packages/arrow/util.py",
+      "path_type": "hardlink",
+      "sha256": "c670debea47235e6166e5df1fa7fd3ca8e1c3a01dc7606f1144085b09d57a047",
+      "size_in_bytes": 3679
+    }
+  ],
+  "paths_version": 1
+}

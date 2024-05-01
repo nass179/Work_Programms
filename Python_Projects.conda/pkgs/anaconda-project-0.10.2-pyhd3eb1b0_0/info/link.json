@@ -1,0 +1,9 @@
+{
+  "noarch": {
+    "entry_points": [
+      "anaconda-project = anaconda_project.cli:main"
+    ],
+    "type": "python"
+  },
+  "package_metadata_version": 1
+}

@@ -1,0 +1,18 @@
+{
+  "arch": null,
+  "build": "pyhd3eb1b0_0",
+  "build_number": 0,
+  "depends": [
+    "python >=3.6",
+    "python-dateutil >=2.7.0",
+    "typing_extensions"
+  ],
+  "license": "Apache-2.0",
+  "license_family": "Apache",
+  "name": "arrow",
+  "noarch": "python",
+  "platform": null,
+  "subdir": "noarch",
+  "timestamp": 1649166695584,
+  "version": "1.2.2"
+}

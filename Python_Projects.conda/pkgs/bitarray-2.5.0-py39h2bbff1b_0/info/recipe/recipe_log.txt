@@ -1,0 +1,735 @@
+commit efe5aac027febaf1ea4259d1220ba0252d91ab66
+Author: Charles Bousseau <16641587+cbouss@users.noreply.github.com>
+Date:   Tue May 10 09:30:26 2022 -0400
+
+    bitarray from 2.4.1 to 2.5.0
+
+commit 3a9188681f9df4d8613339a1812fb27723f57f8f
+Author: Serhii Kupriienko <79282962+skupr-anaconda@users.noreply.github.com>
+Date:   Fri Apr 1 16:39:16 2022 +0300
+
+    bitarray 2.4.1 (#17)
+    
+    * Update to 2.4.1
+
+commit 416b79e98a3b823f82540a1777506351dadef60c
+Merge: d5ae556 b20464f
+Author: Serhii Kupriienko <79282962+skupr-anaconda@users.noreply.github.com>
+Date:   Mon Jan 10 18:32:31 2022 +0200
+
+    Merge pull request #13 from AnacondaRecipes/pbs_2.3.5_20220107T180714
+    
+    bitarray 2.3.5
+
+commit b20464fda80d5215d1e9095eac2c78bbbf57da43
+Author: Serhii Kupriienko <skupriienko@anaconda.com>
+Date:   Mon Jan 10 12:05:56 2022 +0000
+
+    Reset build number to 0, fix license name
+
+commit fc6f26e6a51d7082a799c809691842bf27b9f202
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Fri Jan 7 18:07:15 2022 +0000
+
+    DOR update to 2.3.5
+
+commit d5ae55683caae0e33aad3b7ba68dbc99dc0f9bff
+Merge: 553d09b 89f213c
+Author: anaconda-pkg-build <66446536+anaconda-pkg-build@users.noreply.github.com>
+Date:   Mon Aug 16 14:36:00 2021 -0500
+
+    Merge pull request #5 from AnacondaRecipes/pbs_2.3.0_20210816T143006
+    
+    bitarray 2.3.0
+
+commit 89f213c66bfa3914cfe342a9f54a091c739925e9
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Mon Aug 16 14:30:07 2021 +0000
+
+    DOR update to 2.3.0
+
+commit 553d09b51eb112ba9236b89c6cb140873ebc5a81
+Merge: 9156fb0 4310ea7
+Author: anaconda-pkg-build <66446536+anaconda-pkg-build@users.noreply.github.com>
+Date:   Thu Aug 12 10:10:31 2021 -0500
+
+    Merge pull request #3 from AnacondaRecipes/pbs_2.2.5_20210809T133240
+    
+    bitarray 2.2.5
+
+commit 4310ea765a7b3e3460b8f1717f11f7dcd7bcf948
+Author: Anju Thomas <anthomas@anaconda.com>
+Date:   Mon Aug 9 15:18:51 2021 -0500
+
+    Added license family
+
+commit 6a4ea1fd9921659bf252a3bc4f99cfa52a148b9e
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Mon Aug 9 13:32:41 2021 +0000
+
+    DOR update to 2.2.5
+
+commit 9156fb0e924e64ab01b38071129311343ef18cfb
+Merge: 97d6e16 d0d66da
+Author: anaconda-pkg-build <66446536+anaconda-pkg-build@users.noreply.github.com>
+Date:   Fri Jul 30 01:42:27 2021 -0500
+
+    Merge pull request #1 from AnacondaRecipes/pbs_2.2.3_20210728T053438
+    
+    bitarray 2.2.3
+
+commit d0d66da5c06eac5f58a942bc73e0213a81e35eb3
+Author: Serhii Kupriienko <skupriienko@anaconda.com>
+Date:   Wed Jul 28 16:54:00 2021 +0300
+
+    Add missing packages, and pip check
+
+commit 781109033bf59d3954ff3b2bc6ff38ec4843394f
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Wed Jul 28 05:34:38 2021 +0000
+
+    DOR update to 2.2.3
+
+commit 97d6e16e02ff79fa6d458060164934b2f1e7fce5
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Wed May 12 13:50:19 2021 +0000
+
+    DOR update to 2.1.0
+
+commit ae2c6ff4a5109814d7ab979b2b482df0e3c5faff
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Wed Apr 14 21:11:31 2021 +0000
+
+    DOR update to 1.9.2
+
+commit 256e013c9cd56eb311d17df4f52b33af9ebfe6d2
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Mon Apr 5 20:29:10 2021 +0000
+
+    DOR update to 1.9.1
+
+commit 92ef6bf797bab306a1bbeb53000263b89fe3f90d
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Sat Apr 3 19:32:37 2021 +0000
+
+    DOR update to 1.9.0
+
+commit 2ed7a37451334c1f8633eda04628c71841449e5d
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Wed Mar 31 20:15:35 2021 +0000
+
+    DOR update to 1.8.2
+
+commit 3be0fe7fe298a78f3055c191099a2dbdb007cb14
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Mon Mar 22 19:28:32 2021 +0000
+
+    DOR update to 1.8.0
+
+commit 1a024bd267b7754e435ff9e133c209ade41f12e3
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Sat Mar 13 18:40:37 2021 +0000
+
+    DOR update to 1.7.1
+
+commit c9d46e98d75d5b43d36b356c62f4772f0a50bf4a
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Mon Mar 1 15:59:08 2021 +0000
+
+    DOR update to 1.7.0
+
+commit 8dd2d71bb713fa768109c83f13134087916afa62
+Author: anaconda-pkg-build <anaconda-pkg-build@anaconda.com>
+Date:   Thu Jan 21 18:37:19 2021 +0000
+
+    DOR update to 1.6.3
+
+commit 2b9fddb71e9842dd4e5d2509235b02eb9793eeb8
+Merge: ce2edc2 9b5699e
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Fri Jan 8 22:59:15 2021 +0530
+
+    Merge pull request #35 from regro-cf-autotick-bot/rebuild-pypy37-0-1_h62a27d
+    
+    Rebuild for pypy37
+
+commit 9b5699eb3a12025b2cad162a89b1a819a1baef36
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Fri Jan 8 08:16:08 2021 +0000
+
+    MNT: Re-rendered with conda-build 3.20.5, conda-smithy 3.8.6, and conda-forge-pinning 2021.01.08.07.53.07
+
+commit ab29c7cf3db7722d4c47c34fb1e5b57246cd8c4c
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Fri Jan 8 08:15:57 2021 +0000
+
+    Rebuild for pypy37
+
+commit ce2edc25ad04761fcd4eda3d9726a8578e97537e
+Merge: ad48728 12a0a21
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Nov 7 16:39:58 2020 -0500
+
+    Merge pull request #31 from regro-cf-autotick-bot/1.6.1_h5a2cab
+    
+    bitarray v1.6.1
+
+commit 12a0a21144439493d8d4622b6f06c2a327f84b8a
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Sat Nov 7 13:47:47 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.20.5, conda-smithy 3.8.5, and conda-forge-pinning 2020.11.07.01.17.20
+
+commit 715335dcd94bf4c27d704bc1dab0da9e5853ad14
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Sat Nov 7 13:47:36 2020 +0000
+
+    updated v1.6.1
+
+commit ad487286c667a3493fdaa79f0e0a73ae06bb0d3a
+Merge: 1fefac4 d062bc9
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Oct 17 21:55:32 2020 +0530
+
+    Merge pull request #28 from regro-cf-autotick-bot/1.6.0_hb96f36
+    
+    bitarray v1.6.0
+
+commit d062bc9aa6f3394f623154cadfa180260c4d6ac3
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Sat Oct 17 07:51:35 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.20.4, conda-smithy 3.8.2, and conda-forge-pinning 2020.10.16.18.51.08
+
+commit db830ee75d5bfa13fa874e2a760cdc36c12b338d
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Sat Oct 17 07:51:23 2020 +0000
+
+    updated v1.6.0
+
+commit 1fefac4708119f917797ec86e101d72f7e78914e
+Merge: c9bad29 49ef31d
+Author: Marius van Niekerk <marius.v.niekerk@gmail.com>
+Date:   Sat Oct 10 09:35:20 2020 -0400
+
+    Merge pull request #27 from regro-cf-autotick-bot/rebuild-python39-0-2_h669e86
+
+commit 49ef31d19ae1a1ac97b20798ad596909b787b6b0
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Sat Oct 10 03:04:39 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.20.3, conda-smithy 3.8.0, and conda-forge-pinning 2020.10.09.16.47.17
+
+commit b171db57a5e8a703dbda4bf7d9095beab2ea41ec
+Author: regro-cf-autotick-bot <36490558+regro-cf-autotick-bot@users.noreply.github.com>
+Date:   Sat Oct 10 03:04:26 2020 +0000
+
+    Rebuild for python39
+
+commit c9bad29474b4c2f6b980149254ee34706b456107
+Merge: 2681e9d 0d90985
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Wed Sep 2 04:09:20 2020 +0530
+
+    Merge pull request #26 from regro-cf-autotick-bot/bot-pr_arch_ha9b618
+    
+    Arch Migrator
+
+commit 0d9098525e2b43780b726ff2b97d4030c8b0e297
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Tue Sep 1 21:11:53 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.20.0, conda-smithy 3.7.10, and conda-forge-pinning 2020.09.01.20.11.42
+
+commit fe71497f83d78c62a130000fcd42e78768cb1e36
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Tue Sep 1 21:11:39 2020 +0000
+
+    migration: ArchRebuild
+
+commit 2681e9d78b6bcd908feb000cddd6f3b151cda495
+Merge: 593c038 9491c71
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Tue Aug 25 03:51:03 2020 +0530
+
+    Merge pull request #25 from regro-cf-autotick-bot/1.5.3_h07bb86
+    
+    bitarray v1.5.3
+
+commit 9491c71da66255b411c44cb3337b53740d887740
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Aug 24 20:40:13 2020 +0000
+
+    updated v1.5.3
+
+commit 593c038ecd8e7e938b652e8f7645a7502d11fe37
+Merge: 943e1d7 05d1ac3
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Mon Aug 17 04:46:08 2020 +0530
+
+    Merge pull request #24 from regro-cf-autotick-bot/1.5.2_h5a3b45
+    
+    bitarray v1.5.2
+
+commit 05d1ac31d8bd6f2874c803e094134f608105ea0c
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sun Aug 16 22:19:42 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.19.2, conda-smithy 3.7.10, and conda-forge-pinning 2020.08.15.14.59.48
+
+commit 093e0734311897df62f2bcdb1f54d2fa59a177d1
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sun Aug 16 22:19:30 2020 +0000
+
+    updated v1.5.2
+
+commit 943e1d780cb63e69516e80f28d4ad6aa0c0bf185
+Merge: e2ef92d 4a71641
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Aug 16 01:21:08 2020 +0530
+
+    Merge pull request #23 from regro-cf-autotick-bot/1.5.1_h4afa2b
+    
+    bitarray v1.5.1
+
+commit 4a716417bf719c1c9b5d6da3db0750685859e1dd
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Aug 15 15:26:40 2020 -0400
+
+    Skip _pypy for now, v1.5.0+ do not work
+    
+    xref: https://github.com/ilanschnell/bitarray/issues/99
+    xref: https://foss.heptapod.net/pypy/pypy/-/issues/3281
+
+commit 56c86267e7347645bb39f51c3fe7cc4942caae61
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Aug 10 07:26:35 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.19.2, conda-smithy 3.7.7, and conda-forge-pinning 2020.08.09.19.50.01
+
+commit eaaab36ec00027febabab6a145908cab5886a2b1
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Aug 10 07:26:25 2020 +0000
+
+    updated v1.5.1
+
+commit e2ef92d57e70037a705dbe9419944c52f97f0ded
+Author: conda-forge-admin <conda-forge-admin@email.com>
+Date:   Fri Aug 7 19:37:46 2020 +0000
+
+    [ci skip] [skip ci] [cf admin skip] ***NO_CI*** admin migration CFEP13TokenCleanup
+
+commit 57480c08828b07ea7b44a2047c0c6cfb28f418fb
+Merge: 7544e56 34238e1
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Wed Jul 15 22:50:18 2020 -0400
+
+    Merge pull request #21 from regro-cf-autotick-bot/1.4.2_h3df8ab
+    
+    bitarray v1.4.2
+
+commit 34238e1ef51666fa1a74ed159a7192583a26e239
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Thu Jul 16 02:27:01 2020 +0000
+
+    updated v1.4.2
+
+commit 7544e56f01d1241a9547e5485096961cf6afc306
+Merge: de0eb1a 1e0a767
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Wed Jul 15 11:35:12 2020 -0400
+
+    Merge pull request #20 from regro-cf-autotick-bot/1.4.1_h3867d1
+    
+    bitarray v1.4.1
+
+commit 1e0a767e82ae91849ac65c27399f4fa16cb96557
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Wed Jul 15 01:42:30 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.19.2, conda-smithy 3.7.4, and conda-forge-pinning 2020.07.14.15.32.37
+
+commit a321899c73c870aef34ed6fff4314075dd41061b
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Wed Jul 15 01:42:19 2020 +0000
+
+    updated v1.4.1
+
+commit de0eb1a0ec96a1cce00483f10fdeebf33f89db6d
+Merge: 0e4fcf8 7563a3f
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Jul 12 08:03:43 2020 -0400
+
+    Merge pull request #19 from regro-cf-autotick-bot/1.4.0_h326584
+    
+    bitarray v1.4.0
+
+commit 7563a3fb3558edb440f40342e6d10fbe5cd0eec7
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sat Jul 11 21:37:21 2020 +0000
+
+    updated v1.4.0
+
+commit 0e4fcf8325c0971e56900b60f712f8d2cfef620d
+Merge: 14da449 ce7e216
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Mon Jul 6 08:46:14 2020 -0400
+
+    Merge pull request #18 from regro-cf-autotick-bot/1.3.0_h123736
+    
+    bitarray v1.3.0
+
+commit ce7e21649e48196f6ca3a440722353a0536f2115
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Jul 6 05:19:05 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.19.2, conda-smithy 3.7.4, and conda-forge-pinning 2020.07.05.20.11.47
+
+commit 98779cb6c43e5203ca9866a249f27dcb8943685c
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Jul 6 05:18:49 2020 +0000
+
+    updated v1.3.0
+
+commit 14da44943fbcfa0f04fad324614626a551016cb6
+Merge: 2a70e33 65fb553
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Mon May 18 20:46:11 2020 -0400
+
+    Merge pull request #17 from regro-cf-autotick-bot/1.2.2_hb7e7df
+    
+    bitarray v1.2.2
+
+commit 65fb55334add8b4ba9020c4cd2568d3dbe25ed32
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Mon May 18 20:13:18 2020 -0400
+
+    Remove patch (already part of new release)
+
+commit 8a41425db3a635556929cfe9866cf150534aa33b
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon May 18 23:46:55 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.19.2, conda-smithy 3.7.3, and conda-forge-pinning 2020.05.18.14.31.44
+
+commit 178a822f8fa402e15a3b09262b34a86e0aa8bf9e
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon May 18 23:46:08 2020 +0000
+
+    updated v1.2.2
+
+commit 2a70e33414d5ded51bd778cfbdae86b581bfa99c
+Author: Matthew R Becker <becker.mr@gmail.com>
+Date:   Mon May 18 06:47:17 2020 -0500
+
+    [ci skip] [skip ci] [cf admin skip] ***NO_CI*** admin migration CondaForgeAutomerge
+
+commit 78742265a96ab869db42d94fe3e3dc153821641b
+Author: conda-forge-admin <conda-forge-admin@email.com>
+Date:   Fri May 15 20:12:50 2020 +0000
+
+    [ci skip] [skip ci] [cf admin skip] ***NO_CI*** admin migration CFEP13TokensAndConfig
+
+commit fd3f6cfdb224cacceca83d2382ea11a7ff6fe934
+Merge: c0e0416 1871b58
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Apr 19 17:51:40 2020 -0400
+
+    Merge pull request #16 from regro-cf-autotick-bot/rebuild-pypy-0-1
+    
+    Rebuild for pypy
+
+commit 1871b5858f8630de6b0b36f77b3b9072c4831285
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Apr 19 17:41:45 2020 -0400
+
+    MNT: Re-rendered with conda-build 3.19.2, conda-smithy 3.6.16, and conda-forge-pinning 2020.04.18.00.00.57
+
+commit cbadf1c9171be6efd588ede261e610d487e2a47d
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Apr 19 17:32:55 2020 -0400
+
+    Backport patch for fixing tests for pypy
+
+commit 83be935838f34162f50da749eacb08d66eb12704
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Mar 16 07:54:54 2020 +0000
+
+    MNT: Re-rendered with conda-build 3.19.0, conda-smithy 3.6.12, and conda-forge-pinning 2020.03.14
+
+commit 43e97cf5029ad6c8520f2aa10623c721f9f82cfc
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Mar 16 07:54:30 2020 +0000
+
+    Rebuild for pypy
+
+commit c0e04160da63a30f92111500bdddd4da2464ca05
+Author: conda-forge-admin <conda-forge-admin@email.com>
+Date:   Mon Mar 2 15:38:32 2020 +0000
+
+    [ci skip] [skip ci] [cf admin skip] ***NO_CI*** admin migration AutomergeAndRerender
+
+commit b4011687697dad56e41ba400b448eb35c14d3bb4
+Merge: 07eeddd ea31c3e
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Mon Jan 6 18:47:32 2020 -0500
+
+    Merge pull request #15 from regro-cf-autotick-bot/1.2.1
+    
+    bitarray v1.2.1
+
+commit ea31c3e058c43cc3437dac861d02d6e90e1b0232
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Jan 6 21:14:04 2020 +0000
+
+    updated v1.2.1
+
+commit 07eedddb42f6bf573c76665fd97e53c37ec4f0a0
+Merge: 588e07f 523face
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Dec 29 08:55:47 2019 -0500
+
+    Merge pull request #14 from regro-cf-autotick-bot/1.2.0
+    
+    bitarray v1.2.0
+
+commit 523facebb6eed374a196d71d3356add4f7f4dd89
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Dec 29 08:39:46 2019 -0500
+
+    Add LICENSE info
+
+commit dcb0e5222257bc4bd6077d6d49b94fe3f2b92426
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Fri Dec 6 08:20:54 2019 +0000
+
+    MNT: Re-rendered with conda-build 3.18.11, conda-smithy 3.6.3, and conda-forge-pinning 2019.12.02
+
+commit 0fca19a87aa21b2746084ee50645c60059795911
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Fri Dec 6 08:20:33 2019 +0000
+
+    updated v1.2.0
+
+commit 588e07f03f1f34c6c15ecd5d61c4d4d737d795c7
+Merge: 27aabb4 b625243
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Fri Nov 8 00:34:54 2019 -0500
+
+    Merge pull request #13 from regro-cf-autotick-bot/1.1.0
+    
+    bitarray v1.1.0
+
+commit b625243fddbea1e86db9724b6fb2b4d2647846e4
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Thu Nov 7 19:22:51 2019 +0000
+
+    MNT: Re-rendered with conda-build 3.18.11, conda-smithy 3.6.2, and conda-forge-pinning 2019.11.01
+
+commit 61ac3c228db339e2b84a61703db6b0b782ab6431
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Thu Nov 7 19:22:32 2019 +0000
+
+    updated v1.1.0
+
+commit 27aabb40da4fad85263d1c11034651a9fea130be
+Merge: 2a9fce2 4f36d5a
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Nov 3 07:21:09 2019 -0500
+
+    Merge pull request #12 from regro-cf-autotick-bot/rebuild-python3801
+    
+    Rebuild for python38
+
+commit 4f36d5a3232f2a25581cb2704888bf644691a79e
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sat Nov 2 10:33:37 2019 +0000
+
+    MNT: Re-rendered with conda-build 3.18.11, conda-smithy 3.6.1, and conda-forge-pinning 2019.11.01
+
+commit 63ca05cda30215c09959a90d48b781572f081598
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sat Nov 2 10:33:21 2019 +0000
+
+    bump build number
+
+commit 2a9fce232bc10b61a51f3263d99ce4d5d3fd64f7
+Author: conda-forge-admin <pelson.pub+conda-forge@gmail.com>
+Date:   Fri Sep 6 19:18:55 2019 -0500
+
+    [ci skip] ***NO_CI*** Move from appveyor to azure.
+    
+    See https://github.com/conda-forge/conda-forge.github.io/issues/857
+
+commit a555194916586beab4af84387dff48f062d628da
+Merge: 32fe038 638fe19
+Author: Marius van Niekerk <marius.v.niekerk@gmail.com>
+Date:   Sun Aug 4 17:29:47 2019 -0400
+
+    Merge pull request #11 from regro-cf-autotick-bot/1.0.1
+    
+    bitarray v1.0.1
+
+commit 638fe197a1ba36c851b0e896678c171750cd7b90
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Fri Jul 19 06:26:56 2019 +0000
+
+    updated v1.0.1
+
+commit 32fe038f4eedb8f28503a9dcbc005bad0a5f4d14
+Merge: bbbf0d7 e951f10
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Tue May 21 07:30:08 2019 +0100
+
+    Merge pull request #9 from regro-cf-autotick-bot/0.9.3
+    
+    bitarray v0.9.3
+
+commit e951f10013012ddc4b912191a3544c90b6eb0baa
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon May 20 16:28:46 2019 +0000
+
+    updated v0.9.3
+
+commit bbbf0d7d3b1bd415ba07bf1a6ba4f857e4ca02d6
+Merge: 2db484d 0980966
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Tue Apr 30 08:49:04 2019 +0530
+
+    Merge pull request #8 from regro-cf-autotick-bot/0.9.2
+    
+    bitarray v0.9.2
+
+commit 0980966e6b38b61fa74ea8f0c78ac3e59303496e
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Mon Apr 29 20:31:37 2019 +0000
+
+    updated v0.9.2
+
+commit 2db484d738e6634aa12addd9986026706f828b70
+Merge: afbae34 3e6d30d
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Tue Apr 30 08:30:27 2019 +0530
+
+    Merge pull request #7 from jjhelmus/master
+    
+    0.9.0, simplify and pip
+
+commit 3e6d30d36239bd672d77a6ffebfc586823fc45ee
+Author: Jonathan Helmus <jjhelmus@gmail.com>
+Date:   Mon Apr 29 13:20:48 2019 -0500
+
+    MNT: Re-rendered with conda-build 3.17.8, conda-smithy 3.3.4, and conda-forge-pinning 2019.04.25
+
+commit c7c61ce951c3a8a3342e9291e671cfc57918355a
+Author: Jonathan Helmus <jjhelmus@gmail.com>
+Date:   Mon Apr 22 13:41:36 2019 -0500
+
+    0.9.0, simplify and pip
+
+commit afbae34f21ea18fd8087374ce2b273deeb37412b
+Merge: eee9cd5 9179491
+Author: Mike Sarahan <msarahan@gmail.com>
+Date:   Tue Nov 27 14:18:42 2018 -0600
+
+    Merge pull request #4 from regro-cf-autotick-bot/rebuild
+    
+    Rebuild for Python 3.7, GCC 7, R 3.5.1, openBLAS 0.3.2
+
+commit 9179491b3a47449aaf75f30d6734e63daa0a4cb4
+Author: conda-forge-admin <pelson.pub+conda-forge@gmail.com>
+Date:   Tue Nov 20 22:20:28 2018 +0000
+
+    MNT: Re-rendered with conda-smithy 3.1.12 and pinning 2018.11.17
+
+commit 8fee9540c5464847234dc417d43979dccc97c511
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sun Sep 23 15:12:43 2018 +0000
+
+    MNT: Re-rendered with conda-smithy 3.1.12 and pinning 2018.09.20
+
+commit 518ab7c21619d4b92c7ad516790223b69682b4fc
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Sun Sep 23 15:12:35 2018 +0000
+
+    bump build number
+
+commit eee9cd5af54603594900eebe93d6e6a8dcf7ab74
+Author: Travis CI User <travis@example.org>
+Date:   Sat Aug 4 18:18:41 2018 +0000
+
+    [ci skip] [skip ci] Update anaconda token
+
+commit a2dacea97f250b2f4c859ecd88f9f7662114873b
+Merge: 79fbd8b 5435ce1
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sun Jul 15 18:36:12 2018 +0530
+
+    Merge pull request #3 from regro-cf-autotick-bot/0.8.3
+    
+    bitarray v0.8.3
+
+commit 5435ce13bca0cc0b1cb1cd4549ef4768c93fd365
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Jul 7 08:49:34 2018 +0000
+
+    sdist doesn't have LICENSE file
+
+commit f2282338e88c67f5ec28ae4f542540524fafb5f8
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Jul 7 08:47:19 2018 +0000
+
+    Recipe doesn't use setuptools now
+    
+    xref: https://github.com/ilanschnell/bitarray/commit/22415963cb26c573bd86b7d9ec1b98187d7a94a9
+
+commit b6846ae4a9535ff732c65853f57d6be72a0c715d
+Author: regro-cf-autotick-bot <circleci@cf-graph.regro.github.com>
+Date:   Fri Jul 6 17:06:53 2018 +0000
+
+    updated v0.8.3
+
+commit 79fbd8b31730ce7ce8ac2d9e7d518e20663fd856
+Merge: 61f587f 1024db7
+Author: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date:   Sat Jun 23 18:59:28 2018 +0530
+
+    Merge pull request #2 from regro-cf-autotick-bot/compiler_migration2
+    
+    Migrate to Jinja2 compiler syntax
+
+commit 1024db70c39c78293abadceb4109e9612f2ac075
+Author: Travis CI User <travis@example.org>
+Date:   Mon Jun 18 23:26:19 2018 +0000
+
+    MNT: Re-rendered with conda-smithy 3.1.6 and pinning 2018.05.22
+
+commit 351661d8c9bf68df8f125a0aa57001c4175890a6
+Author: Travis CI User <travis@example.org>
+Date:   Mon Jun 18 23:26:13 2018 +0000
+
+    migrated to Jinja2 compiler syntax build
+
+commit 61f587f1b1473b41a90422c12ed9390af9b0afeb
+Author: Travis-CI on github.com/conda-forge/staged-recipes <conda-forge@googlegroups.com>
+Date:   Sat Aug 26 22:31:55 2017 +0000
+
+    [ci skip] [skip ci] Update anaconda token
+
+commit f4218b3bfdba5aca76580695bc05bc4a2e3d1e77
+Author: Travis-CI on github.com/conda-forge/staged-recipes <conda-forge@googlegroups.com>
+Date:   Wed Jul 19 09:04:50 2017 +0000
+
+    Re-render the feedstock after CI registration.
+
+commit 4766e45cb5c9066e296fc4d4e9b374b4437ea27b
+Author: Travis-CI on github.com/conda-forge/staged-recipes <conda-forge@googlegroups.com>
+Date:   Wed Jul 19 09:01:46 2017 +0000
+
+    Re-render the feedstock after CI registration.
+
+commit eeafe5d1332e4e31e848e8d489ea3f4f7a701617
+Author: Travis-CI on github.com/conda-forge/staged-recipes <conda-forge@googlegroups.com>
+Date:   Wed Jul 19 08:56:34 2017 +0000
+
+    Initial feedstock commit with conda-smithy 2.3.2.

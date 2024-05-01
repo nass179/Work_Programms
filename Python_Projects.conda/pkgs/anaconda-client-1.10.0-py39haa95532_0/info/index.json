@@ -1,0 +1,25 @@
+{
+  "arch": "x86_64",
+  "build": "py39haa95532_0",
+  "build_number": 0,
+  "depends": [
+    "clyent >=1.2.0",
+    "conda-package-handling >=1.7.3",
+    "nbformat >=4.4.0",
+    "python >=3.9,<3.10.0a0",
+    "python-dateutil >=2.6.1",
+    "pytz",
+    "pyyaml >=3.12",
+    "requests >=2.9.1",
+    "setuptools",
+    "six",
+    "urllib3 >=1.26.4"
+  ],
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "name": "anaconda-client",
+  "platform": "win",
+  "subdir": "win-64",
+  "timestamp": 1655287973887,
+  "version": "1.10.0"
+}

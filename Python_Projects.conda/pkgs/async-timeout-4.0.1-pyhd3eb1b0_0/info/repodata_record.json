@@ -1,0 +1,26 @@
+{
+  "build": "pyhd3eb1b0_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/noarch",
+  "constrains": [],
+  "depends": [
+    "python >=3.6",
+    "typing-extensions >=3.6.5"
+  ],
+  "features": "",
+  "fn": "async-timeout-4.0.1-pyhd3eb1b0_0.conda",
+  "legacy_bz2_md5": "27d55492055e0797d7392ff45328bfd1",
+  "license": "Apache-2.0",
+  "license_family": "Apache",
+  "md5": "57fec436a9eb51fc72a7c4c3bd2b6f95",
+  "name": "async-timeout",
+  "noarch": "python",
+  "package_type": "noarch_python",
+  "sha256": "d9b3254053adf840172715111ac97141cab1278596cb3e3d796d780e0525ca3b",
+  "size": 10445,
+  "subdir": "noarch",
+  "timestamp": 1637851248734,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/noarch/async-timeout-4.0.1-pyhd3eb1b0_0.conda",
+  "version": "4.0.1"
+}

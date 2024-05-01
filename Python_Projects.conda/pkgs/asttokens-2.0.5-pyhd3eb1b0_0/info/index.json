@@ -1,0 +1,17 @@
+{
+  "arch": null,
+  "build": "pyhd3eb1b0_0",
+  "build_number": 0,
+  "depends": [
+    "python >=3.5",
+    "six"
+  ],
+  "license": "Apache-2.0",
+  "license_family": "Apache",
+  "name": "asttokens",
+  "noarch": "python",
+  "platform": null,
+  "subdir": "noarch",
+  "timestamp": 1646925670610,
+  "version": "2.0.5"
+}

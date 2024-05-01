@@ -1,0 +1,9 @@
+{
+  "noarch": {
+    "entry_points": [
+      "autopep8 = autopep8:main"
+    ],
+    "type": "python"
+  },
+  "package_metadata_version": 1
+}

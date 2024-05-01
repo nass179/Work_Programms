@@ -1,0 +1,23 @@
+package:
+  name: anaconda
+  version: custom
+
+build:
+  number: 1
+
+requirements:
+  host:
+    - python
+  run:
+    - python
+    - _anaconda_depends
+
+about:
+  home: https://www.anaconda.com/distribution
+  license: BSD
+  summary: Simplifies package management and deployment of Anaconda
+  description: |
+    Anaconda is a Python distribution which includes over 400
+    Python packages for science, math, engineering, and data analysis.
+  doc_url: https://docs.anaconda.com/anaconda
+  dev_url: https://github.com/ContinuumIO/anaconda

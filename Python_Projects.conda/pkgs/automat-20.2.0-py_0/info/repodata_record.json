@@ -1,0 +1,27 @@
+{
+  "build": "py_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/noarch",
+  "constrains": [],
+  "depends": [
+    "attrs >=16.1.0",
+    "python",
+    "six"
+  ],
+  "features": "",
+  "fn": "automat-20.2.0-py_0.conda",
+  "legacy_bz2_md5": "22661b754af2bce6143565bc186dbd6a",
+  "license": "MIT",
+  "license_family": "MIT",
+  "md5": "d7473c2f9d0dd6d090c8c3e78aaa69b4",
+  "name": "automat",
+  "noarch": "python",
+  "package_type": "noarch_python",
+  "sha256": "c53ed6c1cc91ba708d4823cb565c080e9589b76ee6f5c431a1d70d74d42e8816",
+  "size": 32017,
+  "subdir": "noarch",
+  "timestamp": 1600298502334,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/noarch/automat-20.2.0-py_0.conda",
+  "version": "20.2.0"
+}

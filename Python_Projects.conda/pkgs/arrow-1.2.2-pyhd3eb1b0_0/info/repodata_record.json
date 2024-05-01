@@ -1,0 +1,27 @@
+{
+  "build": "pyhd3eb1b0_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/noarch",
+  "constrains": [],
+  "depends": [
+    "python >=3.6",
+    "python-dateutil >=2.7.0",
+    "typing_extensions"
+  ],
+  "features": "",
+  "fn": "arrow-1.2.2-pyhd3eb1b0_0.conda",
+  "legacy_bz2_md5": "68ab081fc1e71466932dc96b9bba365a",
+  "license": "Apache-2.0",
+  "license_family": "Apache",
+  "md5": "c7f20697755bb80bbd4736e3f322ae0b",
+  "name": "arrow",
+  "noarch": "python",
+  "package_type": "noarch_python",
+  "sha256": "697fa3af13657052ce459bd9c6b17676e846d69262d03a7b6ea68dc87c9fed1f",
+  "size": 94005,
+  "subdir": "noarch",
+  "timestamp": 1649166695584,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/noarch/arrow-1.2.2-pyhd3eb1b0_0.conda",
+  "version": "1.2.2"
+}
