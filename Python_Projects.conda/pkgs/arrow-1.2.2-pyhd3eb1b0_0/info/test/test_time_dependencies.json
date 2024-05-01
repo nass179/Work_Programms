@@ -1,1 +1,0 @@
-["pytz", "pytest-cov", "pytest", "dateparser", "simplejson", "pip", "pytest-mock", "regex <2022.3.15"]

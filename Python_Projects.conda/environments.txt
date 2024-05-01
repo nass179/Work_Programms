@@ -1,2 +1,0 @@
-C:\ProgramData\Anaconda3
-C:\Users\shann\.conda\envs\py39
