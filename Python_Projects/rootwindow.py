@@ -1,11 +1,10 @@
 import tkinter as tk
-
 root = tk.Tk()
 
 root.geometry("800x500")
 root.title("ModbusRTUClient")
 
-label = tk.Label(root, text = "ModbusClient", font = ('Arial, 20'))
+label = tk.Label(root, text = "ModbusClient", font = ('Arial', 20))
 label.pack(padx=20, pady=20)
 
 buttonframe = tk.Frame(root)
