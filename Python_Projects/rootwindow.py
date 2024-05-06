@@ -9,11 +9,11 @@ def root_window():
 
     root.geometry("800x500")
     root.title("ModbusRTUClient")
-
+    '''
     def opendata():
         data_window()
         root.destroy()
-
+    '''
     button_frame = tk.Frame(root)
     button_frame.columnconfigure(0, weight=100)
     button_frame.columnconfigure(1, weight=0)
@@ -53,32 +53,32 @@ def data_window():
     button_frame.columnconfigure(3, weight=0)
 
     def update_labels():
-        data = Mc.client('COM4', 19200, 3, 2, 2301, 8, 'd7af')
-        tau_label.config(text=str(data[0]) + " °C")
-        humidity_label.config(text=str(float(data[1])) + " %rH")
-        pressure_label.config(text=str(data[2]) + " bar")
-        temperature_label.config(text=str(data[3]) + " °C")
-        #abs_humidity_label.config(text=str(Calc.absolute_humidity(float(data[1]), float(data[3]), float(data[2]))) + " %")
-
+        data = Mc.client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
+        tau_label.config(text="Taupunkt: " + str(data[0]) + " °C")
+        humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(data[1])) + " %rH")
+        pressure_label.config(text="Druck: " + str(data[2]) + " bar")
+        temperature_label.config(text="Temperatur: " + str(data[3]) + " °C")
+        # abs_humidity_label.config(text=str(Calc.absolute_humidity(float(data[1]), float(data[3]), float(data[2]))) + " %")
+    '''
     def return_to_start():
         root_window()
         root.destroy()
-
+    '''
     btn_read = tk.Button(button_frame, text="Read", font=('Arial', 18), command=update_labels)
     btn_read.grid(row=0, column=0, sticky=tk.W + tk.E)
-    #btn_back = tk.Button(button_frame, text="back", font=('Arial', 18), command=return_to_start)
-    #btn_back.grid(row=0, column=1, sticky=tk.W + tk.E)
+    # btn_back = tk.Button(button_frame, text="back", font=('Arial', 18), command=return_to_start)
+    # btn_back.grid(row=0, column=1, sticky=tk.W + tk.E)
     tau_label = tk.Label(root, text="0", font=('Arial', 18))
     humidity_label = tk.Label(root, text="0", font=('Arial', 18))
     pressure_label = tk.Label(root, text="0", font=('Arial', 18))
     temperature_label = tk.Label(root, text="0", font=('Arial', 18))
-    #abs_humidity_label = tk.Label(root, text="0", font=('Arial', 18))
+    # abs_humidity_label = tk.Label(root, text="0", font=('Arial', 18))
     button_frame.pack(fill="x", padx=30)
     tau_label.pack()
     humidity_label.pack()
     pressure_label.pack()
     temperature_label.pack()
-    #abs_humidity_label.pack()
+    # abs_humidity_label.pack()
 
 
 root_window()
