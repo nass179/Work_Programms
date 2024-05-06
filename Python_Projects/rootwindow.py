@@ -20,12 +20,15 @@ def root_window():
     button_frame.columnconfigure(2, weight=0)
     button_frame.columnconfigure(3, weight=0)
 
-    datalabel = tk.Label(root, text="ModbusClient", font=('Arial', 18))
-    datalabel.pack()
+    # datalabel = tk.Label(root, text="ModbusClient", font=('Arial', 18))
+    # datalabel.pack()
+    logo = tk.PhotoImage(file="ultratube_logo.png")
+    image_label = tk.Label(root, image=logo)
+    image_label.pack()
 
-    btn_data = tk.Button(button_frame, text="Data", font=('Arial', 18), command=data_window)
+    btn_data = tk.Button(button_frame, text="Start", font=('Arial', 18), command=data_window)
     btn_data.grid(row=0, column=0, sticky=tk.W + tk.E)
-
+    '''
     btn_calculations = tk.Button(button_frame, text="Calculations", font=('Arial', 18))
     btn_calculations.grid(row=1, column=0, sticky=tk.W + tk.E)
 
@@ -34,7 +37,7 @@ def root_window():
 
     btn_settings = tk.Button(button_frame, text="Settings", font=('Arial', 18))
     btn_settings.grid(row=3, column=0, sticky=tk.W + tk.E)
-
+    '''
     button_frame.pack(fill="x", padx=30)
 
     root.mainloop()
@@ -58,7 +61,10 @@ def data_window():
         humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(data[1])) + " %rH")
         pressure_label.config(text="Druck: " + str(data[2]) + " bar")
         temperature_label.config(text="Temperatur: " + str(data[3]) + " °C")
+
+        update_labels.after_id = root.after(500, update_labels)
         # abs_humidity_label.config(text=str(Calc.absolute_humidity(float(data[1]), float(data[3]), float(data[2]))) + " %")
+
     '''
     def return_to_start():
         root_window()
