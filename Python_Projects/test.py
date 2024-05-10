@@ -1,104 +1,114 @@
-import tkinter as tk
-import tkinter.messagebox as msg
+import tkinter
+import random
 
-class Baustellenauswahl(tk.Tk):
-    def __init__(self, baustellen=None):
-        super().__init__()
+root = tkinter.Tk()
 
-        if not baustellen:
-            self.baustellen = []
-        else:
-            self.baustellen = baustellen
+root.configure(bg='lightyellow')
 
-        self.baustellen_canvas = tk.Canvas(self)
-        self.baustellen_frame = tk.Frame(self.baustellen_canvas)
-        self.text_frame = tk.Frame(self)
+root.title('My To Do List')
 
-        self.scrollbar = tk.Scrollbar(self, orient='vertical', command=self.baustellen_canvas.yview)
-        self.baustellen_canvas.configure(yscrollcommand=self.scrollbar.set)
+root.geometry('270x250')
 
-        self.title("Baustellenauswahl")
-        self.geometry("500x500")
+tasks = []
 
-        self.baustelle_create = tk.Text(self.text_frame, height=3, bg="white", fg="black")
 
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y, expand=True)
-        self.baustellen_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+# Create functions
 
-        self.canvas_frame = self.baustellen_canvas.create_window((0, 0), window=self.baustellen_frame, anchor="nw")
+def update_listbox():
+    # Clear the current list
+    clear_listbox()
 
-        self.baustelle_create.pack(side=tk.BOTTOM, fill=tk.X)
-        self.text_frame.pack(side=tk.BOTTOM, fill=tk.X)
-        self.baustelle_create.focus_set()
+    # update items to list
+    for task in tasks:
+        lb_tasks.insert("end", task)
 
-        self.colour_scheme = [{"bg": "lightgrey", "fg": "black"}, {"bg": "grey", "fg": "white"}]
 
-        self.create_widgets()
+def clear_listbox():
+    lb_tasks.delete(0, "end")
 
-    def create_widgets(self):
-        auswahl1 = tk.Label(self.baustellen_frame, text="--- Baustelle Hinzufügen ---", bg="lightgrey", fg="black", pady=10)
-        auswahl1.bind("<Button-1>", self.remove_baustelle)
-        auswahl1.grid(row=0, column=0, columnspan=2, sticky="ew")
 
-        for index, baustelle in enumerate(self.baustellen, start=1):
-            baustelle_label = tk.Label(self.baustellen_frame, text=baustelle, pady=10)
-            baustelle_label.grid(row=index, column=0, sticky="ew")
-            baustelle_delbutton = tk.Button(self.baustellen_frame, text="del", pady=10)
-            baustelle_delbutton.grid(row=index, column=1, sticky="ew")
+def add_task():
+    # Get the task
+    task = txt_input.get()
+    # Append the task to list
+    if task != '':
+        tasks.append(task)
+        update_listbox()
+    else:
+        display['text'] = "Please enter a task!"
+    txt_input.delete(0, 'end')
 
-        self.baustellen_frame.grid_columnconfigure(0, weight=1)
-        self.baustellen_frame.grid_columnconfigure(1, weight=1)
 
-        self.bind("<Return>", self.add_baustelle)
-        self.bind("<Configure>", self.on_frame_configure)
-        self.bind_all("<MouseWheel>", self.mouse_scroll)
-        self.bind_all("<Button-4>", self.mouse_scroll)
-        self.bind_all("<Button-5>", self.mouse_scroll)
-        self.baustellen_canvas.bind("<Configure>", self.baustelle_width)
+def delete():
+    task = lb_tasks.get('active')
+    if task in tasks:
+        tasks.remove(task)
+    # Update list box
+    update_listbox()
 
-    def add_baustelle(self, event=None):
-        baustelle_text = self.baustelle_create.get(1.0, tk.END).strip()
+    display['text'] = "Task deleted!"
 
-        if len(baustelle_text) > 0:
-            self.baustellen.append(baustelle_text)
 
-            baustelle_label = tk.Label(self.baustellen_frame, text=baustelle_text, pady=10)
-            baustelle_label.grid(row=len(self.baustellen), column=0, sticky="ew")
+def delete_all():
+    global tasks
+    # Clear the list
+    tasks = []
 
-            baustelle_delbutton = tk.Button(self.baustellen_frame, text="del", pady=10)
-            baustelle_delbutton.grid(row=len(self.baustellen), column=1, sticky="ew")
+    update_listbox()
 
-        self.baustelle_create.delete(1.0, tk.END)
 
-    def remove_baustelle(self, event):
-        baustelle_index = int(event.widget.grid_info()["row"])
-        if msg.askyesno("Really Delete?", f"Delete {self.baustellen[baustelle_index]}?"):
-            del self.baustellen[baustelle_index]
-            self.recreate_widgets()
+def choose_random():
+    task = random.choice(tasks)
+    display['text'] = task
 
-    def recreate_widgets(self):
-        for widget in self.baustellen_frame.winfo_children():
-            widget.destroy()
-        self.create_widgets()
 
-    def on_frame_configure(self, event=None):
-        self.baustellen_canvas.configure(scrollregion=self.baustellen_canvas.bbox("all"))
+def number_of_task():
+    number_of_tasks = len(tasks)
 
-    def baustelle_width(self, event):
-        canvas_width = event.width
-        self.baustellen_canvas.itemconfig(self.canvas_frame, width=canvas_width)
+    msg = "Number of tasks : %s" % number_of_tasks
+    display['text'] = msg
 
-    def mouse_scroll(self, event):
-        if event.delta:
-            self.baustellen_canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
-        else:
-            if event.num == 5:
-                move = 1
-            else:
-                move = -1
 
-            self.baustellen_canvas.yview_scroll(move, "units")
+def exit():
+    quit()
 
-if __name__ == "__main__":
-    baustellenauswahl = Baustellenauswahl()
-    baustellenauswahl.mainloop()
+
+# Create Buttons and List options
+
+title = tkinter.Label(root, text="To-Do-List", bg='lightyellow')
+title.grid(row=0, column=0)
+
+display = tkinter.Label(root, text="", bg='white')
+display.grid(row=0, column=1)
+
+txt_input = tkinter.Entry(root, width=15)
+txt_input.grid(row=1, column=1)
+
+btn_add_task = tkinter.Button(root, text="Add Task", fg='black', bg=None, command=add_task)
+
+btn_add_task.grid(row=1, column=0)
+
+btn_delete = tkinter.Button(root, text="Delete", fg='black', bg=None, command=delete)
+
+btn_delete.grid(row=2, column=0)
+
+btn_delete_all = tkinter.Button(root, text="Delete All", fg='black', bg=None, command=delete_all)
+
+btn_delete_all.grid(row=3, column=0)
+
+btn_choose_random = tkinter.Button(root, text="Choose Random", fg='black', bg=None, command=choose_random)
+
+btn_choose_random.grid(row=4, column=0)
+
+btn_number_of_task = tkinter.Button(root, text="Number of Tasks", fg='black', bg=None, command=number_of_task)
+
+btn_number_of_task.grid(row=5, column=0)
+
+btn_close = tkinter.Button(root, text="Exit", fg='black', bg=None, command=exit)
+
+btn_close.grid(row=6, column=0)
+
+lb_tasks = tkinter.Listbox(root)
+lb_tasks.grid(row=2, column=1, rowspan=7)
+
+root.mainloop()
