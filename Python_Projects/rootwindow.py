@@ -1,8 +1,9 @@
 import tkinter as tk
 import tkinter.messagebox as messagebox
 import Modbus_Communication as Mc
+import os
 
-
+global selected_baustelle
 class ModbusRTUClientApp:
     def __init__(self, root):
         self.root = root
@@ -10,6 +11,7 @@ class ModbusRTUClientApp:
         self.root.title("ModbusRTUClient")
         self.baustellenauswahl_window = None
 
+        self.logo = tk.PhotoImage(file="ultratube_logo.png")
         self.create_widgets()
 
     def create_widgets(self):
@@ -18,8 +20,8 @@ class ModbusRTUClientApp:
         self.main_frame.pack(expand=True, fill="both")
 
         # Logo
-        logo = tk.PhotoImage(file="ultratube_logo.png")
-        self.image_label = tk.Label(self.main_frame, image=logo)
+        self.image_label = tk.Label(self.main_frame, image=self.logo)
+        self.image_label.image = self.logo  # Keep a reference to the image
         self.image_label.pack(pady=10)
 
         # Start button
@@ -101,13 +103,13 @@ class Baustellenauswahl:
 
     def load_tasks(self):
         try:
-            with open("tasks.txt", "r") as file:
+            with open("baustellen.txt", "r") as file:
                 self.tasks = file.read().splitlines()
         except FileNotFoundError:
             pass
 
     def save_tasks(self):
-        with open("tasks.txt", "w") as file:
+        with open("baustellen.txt", "w") as file:
             file.write("\n".join(self.tasks))
 
     def update_listbox(self):
@@ -144,11 +146,16 @@ class Baustellenauswahl:
             self.save_tasks()
             messagebox.showinfo("Info", "Alle Baustellen wurden erfolgreich gelöscht.")
 
-
     def open_dataentryapp(self):
-        self.root.withdraw()  # Hide root window
-        #self.data_entryapp = tk.Toplevel(self.root)
-        DataEntryApp()
+
+        selected_index = self.lb_tasks.curselection()
+        if selected_index:
+            global selected_baustelle
+            selected_baustelle = self.lb_tasks.get(selected_index)
+            self.root.withdraw()  # Hide root window
+            # self.data_entryapp = tk.Toplevel(self.root)
+            DataEntryApp()
+
     def open_details(self):
         selected_index = self.lb_tasks.curselection()
         if selected_index:
@@ -169,13 +176,13 @@ class DataEntryApp:
 
     def create_widgets(self):
         # Gasart
-        self.gasart_label = tk.Label(self.root, text="Gasart:", font=("Arial", 14))
+        self.gasart_label = tk.Label(self.root, text="Projektnummer:", font=("Arial", 14))
         self.gasart_label.grid(row=0, column=0, padx=(20, 10), pady=10, sticky="e")
         self.gasart_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
         self.gasart_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
         # Projektnummer
-        self.projektnummer_label = tk.Label(self.root, text="Projektnummer:", font=("Arial", 14))
+        self.projektnummer_label = tk.Label(self.root, text="Gasart:", font=("Arial", 14))
         self.projektnummer_label.grid(row=1, column=0, padx=(20, 10), pady=10, sticky="e")
         self.projektnummer_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
         self.projektnummer_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
@@ -206,17 +213,35 @@ class DataEntryApp:
 
         # Save data to a file
         with open("data.txt", "w") as file:
-            file.write(f"Gasart: {gasart}\n")
-            file.write(f"Projektnummer: {projektnummer}\n")
+            file.write(f"Projektnummer: {gasart}\n")
+            file.write(f"Gasart: {projektnummer}\n")
             file.write(f"Beschreibung: {beschreibung}")
 
-        # Notify the user
-        messagebox.showinfo("Info", "Data saved successfully!")
+        messagebox.showinfo("Info", "Daten erfolgreich gespeichert!")
 
         # Close the window
-        self.root.withdraw()  # Hide root window
-        self.data_window = tk.Toplevel(self.root)
-        DataWindow(self.data_window)
+        confirmation = messagebox.askyesno("Bestätigung",
+                                           "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Kabel mit den richtigen Pins!\n Pin2: Schwarzes Kabel\n Pin3: Rotes Kabel\n Pin4: Gelbes Kabel\n Pin5: Weißes Kabel\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Kabel mit den richtigen Pins verbunden?")
+
+        if confirmation:
+            # Proceed to open the DataWindow
+            confirmation = messagebox.askyesno("Bestätigung",
+                                               "Wird das Rohr durchflossen?",
+                                               )
+
+            if confirmation:
+                # Proceed to open the DataWindow
+                self.root.withdraw()  # Hide root window
+                self.data_window = tk.Toplevel(self.root)
+                DataWindow(self.data_window)
+            else:
+                messagebox.showinfo("Information",
+                                    "Zugriff verweigert! Bitte stellen Sie sicher, dass das Rohr durchflossen wird",
+                                    )
+        else:
+            messagebox.showinfo("Information",
+                                "Zugriff verweigert! Bitte stellen Sie sicher, dass die Pins ordnungsgemäß verbunden sind",
+                                )
 
 
 class DataWindow:
@@ -227,7 +252,7 @@ class DataWindow:
         self.root.title("ModbusRTUClient - Data")
 
         self.create_widgets()
-        self.update_labels()
+        #self.update_labels()
 
     def create_widgets(self):
         # Data labels
@@ -244,16 +269,32 @@ class DataWindow:
         # Read button
         btn_read = tk.Button(self.root, text="Read", font=('Arial', 18), command=self.update_labels)
         btn_read.pack(pady=10)
+        btn_dokumentieren = tk.Button(self.root, text="Dokumentieren", font=('Arial', 18), command=self.create_file)
+        btn_dokumentieren.pack(pady=10)
 
     def update_labels(self):
-        data = Mc.client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
-        self.tau_label.config(text="Taupunkt: " + str(data[0]) + " °C")
-        self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(data[1])) + " %rH")
-        self.pressure_label.config(text="Druck: " + str(data[2]) + " bar")
-        self.temperature_label.config(text="Temperatur: " + str(data[3]) + " °C")
+        self.data = Mc.client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
+        self.tau_label.config(text="Drucktaupunkt: " + str(self.data[0]) + " °C")
+        self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
+        self.pressure_label.config(text="Druck: " + str(self.data[2]) + " bar")
+        self.temperature_label.config(text="Temperatur: " + str(self.data[3]) + " °C")
 
         # Schedule the update every 500 ms
-        self.root.after(500, self.update_labels)
+        self.root.after(1000, self.update_labels)
+
+    def create_file(self):
+        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        new_file_name = "test.txt"
+        new_file_path = os.path.join(desktop_path, new_file_name)
+
+        input_file_path = "data.txt"
+        with open(input_file_path, 'r') as input_file:
+            input_text = input_file.read()
+            global selected_baustelle
+        final_text = "Sensor: S220 Taupunkttransmitter\n" + "Baustelle: " + selected_baustelle +"\n" + input_text + "Drucktaupunkt: " + str(self.data[0]) + " °C\nRelative Luftfeuchtigkeit: " + str(
+            self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C"
+        with open(new_file_path, 'w') as new_file:
+            new_file.write(final_text)
 
 
 if __name__ == "__main__":
