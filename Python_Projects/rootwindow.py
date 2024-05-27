@@ -222,7 +222,7 @@ class DataEntryApp:
 
         # Close the window
         confirmation = messagebox.askyesno("Bestätigung",
-                                           "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Kabel mit den richtigen Pins!\n Pin2: Schwarzes Kabel\n Pin3: Rotes Kabel\n Pin4: Gelbes Kabel\n Pin5: Weißes Kabel\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Kabel mit den richtigen Pins verbunden?")
+                                           "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
 
         if confirmation:
             # Proceed to open the DataWindow
@@ -283,12 +283,13 @@ class DataWindow:
         self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
         self.pressure_label.config(text="Druck: " + str(self.data[2]) + " bar")
         self.temperature_label.config(text="Temperatur: " + str(self.data[3]) + " °C")
-        self.abshum_label.config(text="Abs. Luftfeuchtigkeit " + str(abshumid)+ " ppm")
+        self.abshum_label.config(text="Abs. Luftfeuchtigkeit " + "{:.2f}".format(abshumid) + " ppm")
 
         # Schedule the update every 500 ms
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
+
         abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1])))*1000*24.45)/31.9988
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         new_file_name = "test.txt"
@@ -299,10 +300,9 @@ class DataWindow:
             input_text = input_file.read()
             global selected_baustelle
         final_text = "Sensor: S220 Taupunkttransmitter\n" + "Baustelle: " + selected_baustelle +"\n" + input_text + "Drucktaupunkt: " + str(self.data[0]) + " °C\nRelative Luftfeuchtigkeit: " + str(
-            self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C\nAbsolute Luftfeuchtigkeit: " + str(abshumid)   + " ppm"
+            self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C\nAbsolute Luftfeuchtigkeit: " + "{:.2f}".format(abshumid)  + " ppm"
         with open(new_file_path, 'w') as new_file:
             new_file.write(final_text)
-
 
 if __name__ == "__main__":
     root = tk.Tk()
