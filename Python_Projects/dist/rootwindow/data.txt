@@ -1,3 +1,0 @@
-Projektnummer: P21-185
-Gasart: Sauerstoff
-Beschreibung: test beschreibung
