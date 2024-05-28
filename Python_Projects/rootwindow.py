@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.messagebox as messagebox
 import Modbus_Communication as Mc
 import os
+import Calc
 
 global selected_baustelle
 class ModbusRTUClientApp:
@@ -221,7 +222,7 @@ class DataEntryApp:
 
         # Close the window
         confirmation = messagebox.askyesno("Bestätigung",
-                                           "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Kabel mit den richtigen Pins!\n Pin2: Schwarzes Kabel\n Pin3: Rotes Kabel\n Pin4: Gelbes Kabel\n Pin5: Weißes Kabel\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Kabel mit den richtigen Pins verbunden?")
+                                           "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
 
         if confirmation:
             # Proceed to open the DataWindow
@@ -260,11 +261,14 @@ class DataWindow:
         self.humidity_label = tk.Label(self.root, text="Relative Luftfeuchtigkeit: 0 %rH", font=('Arial', 18))
         self.pressure_label = tk.Label(self.root, text="Druck: 0 bar", font=('Arial', 18))
         self.temperature_label = tk.Label(self.root, text="Temperatur: 0 °C", font=('Arial', 18))
+        self.abshum_label = tk.Label(self.root, text="Abs. Luftfeuchtigkeit 0 ppm", font=('Arial', 18))
 
         self.tau_label.pack(pady=10)
         self.humidity_label.pack(pady=10)
         self.pressure_label.pack(pady=10)
         self.temperature_label.pack(pady=10)
+        self.abshum_label.pack(pady=10)
+
 
         # Read button
         btn_read = tk.Button(self.root, text="Read", font=('Arial', 18), command=self.update_labels)
@@ -274,15 +278,19 @@ class DataWindow:
 
     def update_labels(self):
         self.data = Mc.client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
+        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1])))*1000*24.45)/31.9988
         self.tau_label.config(text="Drucktaupunkt: " + str(self.data[0]) + " °C")
         self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
         self.pressure_label.config(text="Druck: " + str(self.data[2]) + " bar")
         self.temperature_label.config(text="Temperatur: " + str(self.data[3]) + " °C")
+        self.abshum_label.config(text="Abs. Luftfeuchtigkeit " + "{:.2f}".format(abshumid) + " ppm")
 
         # Schedule the update every 500 ms
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
+
+        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1])))*1000*24.45)/31.9988
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         new_file_name = "test.txt"
         new_file_path = os.path.join(desktop_path, new_file_name)
@@ -292,10 +300,9 @@ class DataWindow:
             input_text = input_file.read()
             global selected_baustelle
         final_text = "Sensor: S220 Taupunkttransmitter\n" + "Baustelle: " + selected_baustelle +"\n" + input_text + "Drucktaupunkt: " + str(self.data[0]) + " °C\nRelative Luftfeuchtigkeit: " + str(
-            self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C"
+            self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C\nAbsolute Luftfeuchtigkeit: " + "{:.2f}".format(abshumid)  + " ppm"
         with open(new_file_path, 'w') as new_file:
             new_file.write(final_text)
-
 
 if __name__ == "__main__":
     root = tk.Tk()
