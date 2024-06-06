@@ -292,7 +292,47 @@ class DataWindow:
 
         abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1])))*1000*24.45)/31.9988
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        new_file_name = "test.txt"
+        import xlsxwriter
+        output_filename = 'output.xlsx'
+        output_filepath = f"{desktop_path}/{output_filename}"
+        workbook = xlsxwriter.Workbook(output_filepath)
+        worksheet = workbook.add_worksheet()
+
+        img_path = 'ultratube_logo.png'
+        worksheet.set_column("A:G", 11.29)
+        worksheet.insert_image('E1', img_path, {'x_scale': 0.2, 'y_scale': 0.2, 'x_offset': 10, 'y_offset': 5})
+
+        worksheet.write("A1", "Prüfauftrag")
+        worksheet.write("A2", "Projektnummer: P18-187")
+        worksheet.write("A6", "Kunde:")
+        worksheet.write("A7", "Test GmbH")
+        worksheet.write("A8", "teststraße 5")
+        worksheet.write("A9", "10716 Berlin")
+        worksheet.write("E4", "Saatwinkler Damm 66, 13627 Berlin")
+        worksheet.write("E6", "Baustelle:")
+        worksheet.write("E7", selected_baustelle)
+        worksheet.write("E8", "Zülpicher Str.77")
+        worksheet.write("E9", "50937 Köln")
+        worksheet.write("B11", "Feuchtemessung")
+        worksheet.write("B13", "Sensor: S220")
+        worksheet.write("D13", "Gasart: O2")
+        worksheet.add_table('B15:F19', {'header_row': False})
+        table_values = [
+            ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt", "Temperatur"],
+            ["Einheit", "ppm", "%rH", "°C", "°C"],
+            ["MP1", abshumid, str(self.data[1]), str(self.data[0]), str(self.data[3])],
+            ["MP2", "fill", "fill", "fill", "fill"]]
+        for i in range(0, len(table_values[0])):
+            worksheet.write(f"B{i + 15}", table_values[0][i])
+            worksheet.write(f"D{i + 15}", table_values[1][i])
+            worksheet.write(f"E{i + 15}", table_values[2][i])
+            worksheet.write(f"F{i + 15}", table_values[3][i])
+        worksheet.write("B22", "MP1: ")
+        worksheet.write("B23", "MP2: ")
+        worksheet.write("B24", "Prüfausdruck Nr.: " + str(1))
+        workbook.close()
+
+        '''new_file_name = "test.txt"
         new_file_path = os.path.join(desktop_path, new_file_name)
 
         input_file_path = "data.txt"
@@ -302,7 +342,7 @@ class DataWindow:
         final_text = "Sensor: S220 Taupunkttransmitter\n" + "Baustelle: " + selected_baustelle +"\n" + input_text + "Drucktaupunkt: " + str(self.data[0]) + " °C\nRelative Luftfeuchtigkeit: " + str(
             self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C\nAbsolute Luftfeuchtigkeit: " + "{:.2f}".format(abshumid)  + " ppm"
         with open(new_file_path, 'w') as new_file:
-            new_file.write(final_text)
+            new_file.write(final_text)'''
 
 if __name__ == "__main__":
     root = tk.Tk()
