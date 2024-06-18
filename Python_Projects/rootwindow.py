@@ -5,6 +5,8 @@ import os
 import Calc
 
 global selected_baustelle
+
+
 class ModbusRTUClientApp:
     def __init__(self, root):
         self.root = root
@@ -269,7 +271,6 @@ class DataWindow:
         self.temperature_label.pack(pady=10)
         self.abshum_label.pack(pady=10)
 
-
         # Read button
         btn_read = tk.Button(self.root, text="Read", font=('Arial', 18), command=self.update_labels)
         btn_read.pack(pady=10)
@@ -278,7 +279,7 @@ class DataWindow:
 
     def update_labels(self):
         self.data = Mc.client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
-        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1])))*1000*24.45)/31.9988
+        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
         self.tau_label.config(text="Drucktaupunkt: " + str(self.data[0]) + " °C")
         self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
         self.pressure_label.config(text="Druck: " + str(self.data[2]) + " bar")
@@ -289,8 +290,7 @@ class DataWindow:
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
-
-        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1])))*1000*24.45)/31.9988
+        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         import xlsxwriter
         output_filename = 'output.xlsx'
@@ -343,6 +343,7 @@ class DataWindow:
             self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C\nAbsolute Luftfeuchtigkeit: " + "{:.2f}".format(abshumid)  + " ppm"
         with open(new_file_path, 'w') as new_file:
             new_file.write(final_text)'''
+
 
 if __name__ == "__main__":
     root = tk.Tk()
