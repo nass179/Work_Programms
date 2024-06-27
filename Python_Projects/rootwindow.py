@@ -3,6 +3,7 @@ import tkinter.messagebox as messagebox
 import Modbus_Communication as Mc
 import os
 import Calc
+import xlsxwriter
 
 global selected_baustelle
 global messplatz
@@ -10,7 +11,16 @@ global messplatz
 class ModbusRTUClientApp:
     def __init__(self, root):
         self.root = root
-        self.root.geometry("1280x720")
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Set the geometry to fullscreen windowed mode
+        self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
+
+        # Make the window non-resizable and always on top
+        self.root.resizable(False, False)
+        self.root.wm_attributes("-topmost", True)
+
         self.root.title("ModbusRTUClient")
         self.baustellenauswahl_window = None
 
@@ -42,7 +52,15 @@ class Baustellenauswahl:
         self.root = root
         self.root.configure(bg='lightgrey')
         self.root.title('Baustellenauswahl')
-        self.root.geometry('1280x720')
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Set the geometry to fullscreen windowed mode
+        self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
+
+        # Make the window non-resizable and always on top
+        self.root.resizable(False, False)
+        self.root.wm_attributes("-topmost", True)
 
         self.tasks = []
         self.load_tasks()
@@ -78,6 +96,7 @@ class Baustellenauswahl:
         self.lb_tasks = tk.Listbox(self.lb_frame, width=80, height=15, font=('Arial', 14), selectbackground='#007bff',
                                    selectforeground='white')
         self.lb_tasks.pack(side="left", padx=10, pady=10, fill="both", expand=True)
+        self.lb_tasks.bind('<Double-Button-1>', self.on_double_click)  # Bind double click to on_double_click method
 
         # Scrollbar
         self.scrollbar = tk.Scrollbar(self.lb_frame, orient='vertical', command=self.lb_tasks.yview)
@@ -104,6 +123,12 @@ class Baustellenauswahl:
         # Populate Listbox with tasks
         self.update_listbox()
 
+    def on_double_click(self, event):
+        selected_task_index = self.lb_tasks.curselection()
+        if selected_task_index:
+            selected_task = self.lb_tasks.get(selected_task_index)
+            print(f"Double-clicked on: {selected_task}")
+            self.open_dataentryapp()  # Replace this with the actual logic for opening the next page
     def load_tasks(self):
         try:
             with open("baustellen.txt", "r") as file:
@@ -173,7 +198,15 @@ class DataEntryApp:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Data Entry")
-        self.root.geometry("1280x720")
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Set the geometry to fullscreen windowed mode
+        self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
+
+        # Make the window non-resizable and always on top
+        self.root.resizable(False, False)
+        self.root.wm_attributes("-topmost", True)
 
         self.create_widgets()
 
@@ -190,15 +223,20 @@ class DataEntryApp:
         self.projektnummer_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
         self.projektnummer_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
+        # Messplatz
+        self.messplatz_label = tk.Label(self.root, text="Messplatz:", font=("Arial", 14))
+        self.messplatz_label.grid(row=2, column=0, padx=(20, 10), pady=10, sticky="e")
+        self.messplatz_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
+        self.messplatz_entry.grid(row=2, column=1, padx=10, pady=10, sticky="w")
         # Beschreibung
         self.beschreibung_label = tk.Label(self.root, text="Beschreibung:", font=("Arial", 14))
-        self.beschreibung_label.grid(row=2, column=0, padx=(20, 10), pady=10, sticky="ne")
+        self.beschreibung_label.grid(row=3, column=0, padx=(20, 10), pady=10, sticky="ne")
         self.beschreibung_entry = tk.Text(self.root, font=("Arial", 14), width=80, height=10)
-        self.beschreibung_entry.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+        self.beschreibung_entry.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
         # Weiter button
         self.weiter_button = tk.Button(self.root, text="Weiter", font=("Arial", 14), command=self.save_and_exit)
-        self.weiter_button.grid(row=3, columnspan=2, pady=20)
+        self.weiter_button.grid(row=4, columnspan=2, pady=20)
 
         # Center all widgets
         self.center_widgets()
@@ -210,21 +248,25 @@ class DataEntryApp:
 
     def save_and_exit(self):
         # Get data from entry fields
+        global messplatz
         gasart = self.gasart_entry.get()
         projektnummer = self.projektnummer_entry.get()
+        messplatz = self.messplatz_entry.get()
         beschreibung = self.beschreibung_entry.get("1.0", tk.END)
+
 
         # Save data to a file
         with open("data.txt", "w") as file:
             file.write(f" {gasart}\n")
             file.write(f" {projektnummer}\n")
-            file.write(f" {beschreibung}")
+            file.write(f" {beschreibung}\n")
+            # file.write(f" {messplatz}")
 
         messagebox.showinfo("Info", "Daten erfolgreich gespeichert!")
 
         # Close the window
         confirmation = messagebox.askyesno("Bestätigung",
-                                           "Stecker mit Sensor verbinden!")# "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
+                                           "Stecker mit Sensor verbinden!\nIst der Stecker verbunden?")# "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
 
         if confirmation:
             # Proceed to open the DataWindow
@@ -251,7 +293,15 @@ class DataWindow:
     def __init__(self, root):
         self.root = root
 
-        self.root.geometry("1280x720")
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        # Set the geometry to fullscreen windowed mode
+        self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
+
+        # Make the window non-resizable and always on top
+        self.root.resizable(False, False)
+        self.root.wm_attributes("-topmost", True)
         self.root.title("ModbusRTUClient - Data")
 
         self.create_widgets()
@@ -296,8 +346,7 @@ class DataWindow:
             beschreibung = file.readline()
         abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        import xlsxwriter
-        output_filename = 'output.xlsx'
+        output_filename = selected_baustelle + "_" + messplatz + ".xlsx"
         output_filepath = f"{desktop_path}/{output_filename}"
         workbook = xlsxwriter.Workbook(output_filepath)
         worksheet = workbook.add_worksheet()
@@ -306,6 +355,9 @@ class DataWindow:
         worksheet.set_column("A:G", 11.29)
         worksheet.insert_image('E1', img_path, {'x_scale': 0.2, 'y_scale': 0.2, 'x_offset': 10, 'y_offset': 5})
 
+        cell_format = workbook.add_format({
+            'font_size': 8,
+        })
         worksheet.write("A1", "Prüfauftrag")
         worksheet.write("A2", "Projektnummer: " + projektnummer )
         worksheet.write("A6", "")
@@ -320,18 +372,21 @@ class DataWindow:
         worksheet.write("B11", "Feuchtemessung")
         worksheet.write("B13", "Sensor: S220")
         worksheet.write("D13", "Gasart: " + gasart)
-        worksheet.add_table('B15:E19', {'header_row': False})
+        worksheet.add_table('B15:E18', {'header_row': False})
         table_values = [
-            ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt", "Temperatur"],
-            ["Einheit", "ppm", "%rH", "°C", "°C"],
+            ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
+            ["Einheit", "ppm", "%rH", "°C Td"],
             ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
         for i in range(0, len(table_values[0])):
             worksheet.write(f"B{i + 15}", table_values[0][i])
             worksheet.write(f"D{i + 15}", table_values[1][i])
             worksheet.write(f"E{i + 15}", table_values[2][i])
             #worksheet.write(f"F{i + 15}", table_values[3][i])
-        worksheet.write("B22", "Prüfausdruck Nr.: " + str(1))
-        worksheet.write("B23", "Beschreibung: " + beschreibung)
+        worksheet.write("B20", "MP1: " + messplatz)
+        worksheet.write("B21", "Prüfausdruck Nr.: " + str(1))
+        worksheet.write("B22", "Beschreibung: " + beschreibung)
+        worksheet.write("A50", "Messbereich: -100 ... +20 °C Td", cell_format)
+        worksheet.write("C50", "Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)", cell_format)
         workbook.close()
         messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
         '''new_file_name = "test.txt"
