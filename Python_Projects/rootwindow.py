@@ -5,7 +5,7 @@ import os
 import Calc
 
 global selected_baustelle
-
+global messplatz
 
 class ModbusRTUClientApp:
     def __init__(self, root):
@@ -216,15 +216,15 @@ class DataEntryApp:
 
         # Save data to a file
         with open("data.txt", "w") as file:
-            file.write(f"Projektnummer: {gasart}\n")
-            file.write(f"Gasart: {projektnummer}\n")
-            file.write(f"Beschreibung: {beschreibung}")
+            file.write(f" {gasart}\n")
+            file.write(f" {projektnummer}\n")
+            file.write(f" {beschreibung}")
 
         messagebox.showinfo("Info", "Daten erfolgreich gespeichert!")
 
         # Close the window
         confirmation = messagebox.askyesno("Bestätigung",
-                                           "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
+                                           "Stecker mit Sensor verbinden!")# "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
 
         if confirmation:
             # Proceed to open the DataWindow
@@ -259,7 +259,7 @@ class DataWindow:
 
     def create_widgets(self):
         # Data labels
-        self.tau_label = tk.Label(self.root, text="Taupunkt: 0 °C", font=('Arial', 18))
+        self.tau_label = tk.Label(self.root, text="Drucktaupunkt: 0 °C", font=('Arial', 18))
         self.humidity_label = tk.Label(self.root, text="Relative Luftfeuchtigkeit: 0 %rH", font=('Arial', 18))
         self.pressure_label = tk.Label(self.root, text="Druck: 0 bar", font=('Arial', 18))
         self.temperature_label = tk.Label(self.root, text="Temperatur: 0 °C", font=('Arial', 18))
@@ -290,6 +290,10 @@ class DataWindow:
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
+        with open("data.txt", "r") as file:
+            projektnummer =file.readline()
+            gasart = file.readline()
+            beschreibung = file.readline()
         abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
         import xlsxwriter
@@ -303,35 +307,33 @@ class DataWindow:
         worksheet.insert_image('E1', img_path, {'x_scale': 0.2, 'y_scale': 0.2, 'x_offset': 10, 'y_offset': 5})
 
         worksheet.write("A1", "Prüfauftrag")
-        worksheet.write("A2", "Projektnummer: P18-187")
-        worksheet.write("A6", "Kunde:")
-        worksheet.write("A7", "Test GmbH")
-        worksheet.write("A8", "teststraße 5")
-        worksheet.write("A9", "10716 Berlin")
+        worksheet.write("A2", "Projektnummer: " + projektnummer )
+        worksheet.write("A6", "")
+        worksheet.write("A7", "")
+        worksheet.write("A8", "")
+        worksheet.write("A9", "")
         worksheet.write("E4", "Saatwinkler Damm 66, 13627 Berlin")
         worksheet.write("E6", "Baustelle:")
         worksheet.write("E7", selected_baustelle)
-        worksheet.write("E8", "Zülpicher Str.77")
-        worksheet.write("E9", "50937 Köln")
+        worksheet.write("E8", "")
+        worksheet.write("E9", "")
         worksheet.write("B11", "Feuchtemessung")
         worksheet.write("B13", "Sensor: S220")
-        worksheet.write("D13", "Gasart: O2")
-        worksheet.add_table('B15:F19', {'header_row': False})
+        worksheet.write("D13", "Gasart: " + gasart)
+        worksheet.add_table('B15:E19', {'header_row': False})
         table_values = [
             ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt", "Temperatur"],
             ["Einheit", "ppm", "%rH", "°C", "°C"],
-            ["MP1", abshumid, str(self.data[1]), str(self.data[0]), str(self.data[3])],
-            ["MP2", "fill", "fill", "fill", "fill"]]
+            ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
         for i in range(0, len(table_values[0])):
             worksheet.write(f"B{i + 15}", table_values[0][i])
             worksheet.write(f"D{i + 15}", table_values[1][i])
             worksheet.write(f"E{i + 15}", table_values[2][i])
-            worksheet.write(f"F{i + 15}", table_values[3][i])
-        worksheet.write("B22", "MP1: ")
-        worksheet.write("B23", "MP2: ")
-        worksheet.write("B24", "Prüfausdruck Nr.: " + str(1))
+            #worksheet.write(f"F{i + 15}", table_values[3][i])
+        worksheet.write("B22", "Prüfausdruck Nr.: " + str(1))
+        worksheet.write("B23", "Beschreibung: " + beschreibung)
         workbook.close()
-
+        messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
         '''new_file_name = "test.txt"
         new_file_path = os.path.join(desktop_path, new_file_name)
 
