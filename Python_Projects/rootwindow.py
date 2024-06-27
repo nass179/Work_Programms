@@ -13,11 +13,7 @@ class ModbusRTUClientApp:
         self.root = root
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-
-        # Set the geometry to fullscreen windowed mode
         self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
-
-        # Make the window non-resizable and always on top
         self.root.resizable(False, False)
         self.root.wm_attributes("-topmost", True)
 
@@ -120,7 +116,6 @@ class Baustellenauswahl:
                              command=self.open_dataentryapp)
         btn_open.pack(side="left", padx=(10, 0))
 
-        # Populate Listbox with tasks
         self.update_listbox()
 
     def on_double_click(self, event):
@@ -128,7 +123,7 @@ class Baustellenauswahl:
         if selected_task_index:
             selected_task = self.lb_tasks.get(selected_task_index)
             print(f"Double-clicked on: {selected_task}")
-            self.open_dataentryapp()  # Replace this with the actual logic for opening the next page
+            self.open_dataentryapp()
     def load_tasks(self):
         try:
             with open("baustellen.txt", "r") as file:
@@ -175,13 +170,11 @@ class Baustellenauswahl:
             messagebox.showinfo("Info", "Alle Baustellen wurden erfolgreich gelöscht.")
 
     def open_dataentryapp(self):
-
         selected_index = self.lb_tasks.curselection()
         if selected_index:
             global selected_baustelle
             selected_baustelle = self.lb_tasks.get(selected_index)
-            self.root.withdraw()  # Hide root window
-            # self.data_entryapp = tk.Toplevel(self.root)
+            self.root.withdraw()
             DataEntryApp()
 
     def open_details(self):
@@ -200,11 +193,7 @@ class DataEntryApp:
         self.root.title("Data Entry")
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-
-        # Set the geometry to fullscreen windowed mode
         self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
-
-        # Make the window non-resizable and always on top
         self.root.resizable(False, False)
         self.root.wm_attributes("-topmost", True)
 
@@ -228,17 +217,15 @@ class DataEntryApp:
         self.messplatz_label.grid(row=2, column=0, padx=(20, 10), pady=10, sticky="e")
         self.messplatz_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
         self.messplatz_entry.grid(row=2, column=1, padx=10, pady=10, sticky="w")
-        # Beschreibung
+
         self.beschreibung_label = tk.Label(self.root, text="Beschreibung:", font=("Arial", 14))
         self.beschreibung_label.grid(row=3, column=0, padx=(20, 10), pady=10, sticky="ne")
         self.beschreibung_entry = tk.Text(self.root, font=("Arial", 14), width=80, height=10)
         self.beschreibung_entry.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
-        # Weiter button
         self.weiter_button = tk.Button(self.root, text="Weiter", font=("Arial", 14), command=self.save_and_exit)
         self.weiter_button.grid(row=4, columnspan=2, pady=20)
 
-        # Center all widgets
         self.center_widgets()
 
     def center_widgets(self):
@@ -295,17 +282,11 @@ class DataWindow:
 
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-
-        # Set the geometry to fullscreen windowed mode
         self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
-
-        # Make the window non-resizable and always on top
         self.root.resizable(False, False)
         self.root.wm_attributes("-topmost", True)
         self.root.title("ModbusRTUClient - Data")
-
         self.create_widgets()
-        #self.update_labels()
 
     def create_widgets(self):
         # Data labels
@@ -336,7 +317,7 @@ class DataWindow:
         self.temperature_label.config(text="Temperatur: " + str(self.data[3]) + " °C")
         self.abshum_label.config(text="Abs. Luftfeuchtigkeit " + "{:.2f}".format(abshumid) + " ppm")
 
-        # Schedule the update every 500 ms
+        # Schedule the update every 1000 ms
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
@@ -351,7 +332,7 @@ class DataWindow:
         workbook = xlsxwriter.Workbook(output_filepath)
         worksheet = workbook.add_worksheet()
 
-        img_path = 'ultratube_logo.png'
+        img_path = 'Logo.jpg'
         worksheet.set_column("A:G", 11.29)
         worksheet.insert_image('E1', img_path, {'x_scale': 0.2, 'y_scale': 0.2, 'x_offset': 10, 'y_offset': 5})
 
@@ -377,11 +358,12 @@ class DataWindow:
             ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
             ["Einheit", "ppm", "%rH", "°C Td"],
             ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
+
         for i in range(0, len(table_values[0])):
             worksheet.write(f"B{i + 15}", table_values[0][i])
             worksheet.write(f"D{i + 15}", table_values[1][i])
             worksheet.write(f"E{i + 15}", table_values[2][i])
-            #worksheet.write(f"F{i + 15}", table_values[3][i])
+
         worksheet.write("B20", "MP1: " + messplatz)
         worksheet.write("B21", "Prüfausdruck Nr.: " + str(1))
         worksheet.write("B22", "Beschreibung: " + beschreibung)
@@ -389,17 +371,6 @@ class DataWindow:
         worksheet.write("C50", "Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)", cell_format)
         workbook.close()
         messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
-        '''new_file_name = "test.txt"
-        new_file_path = os.path.join(desktop_path, new_file_name)
-
-        input_file_path = "data.txt"
-        with open(input_file_path, 'r') as input_file:
-            input_text = input_file.read()
-            global selected_baustelle
-        final_text = "Sensor: S220 Taupunkttransmitter\n" + "Baustelle: " + selected_baustelle +"\n" + input_text + "Drucktaupunkt: " + str(self.data[0]) + " °C\nRelative Luftfeuchtigkeit: " + str(
-            self.data[1]) + " %rH\nDruck: " + str(self.data[2]) + " bar\nTemperatur: " + str(self.data[3]) + "°C\nAbsolute Luftfeuchtigkeit: " + "{:.2f}".format(abshumid)  + " ppm"
-        with open(new_file_path, 'w') as new_file:
-            new_file.write(final_text)'''
 
 
 if __name__ == "__main__":
