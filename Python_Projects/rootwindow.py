@@ -4,9 +4,11 @@ import Modbus_Communication as Mc
 import os
 import Calc
 import xlsxwriter
-
 global selected_baustelle
 global messplatz
+global projektnummer
+global gasart
+global beschreibung
 
 class ModbusRTUClientApp:
     def __init__(self, root):
@@ -14,7 +16,6 @@ class ModbusRTUClientApp:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
-        self.root.resizable(False, False)
         self.root.wm_attributes("-topmost", True)
 
         self.root.title("ModbusRTUClient")
@@ -53,9 +54,6 @@ class Baustellenauswahl:
 
         # Set the geometry to fullscreen windowed mode
         self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
-
-        # Make the window non-resizable and always on top
-        self.root.resizable(False, False)
         self.root.wm_attributes("-topmost", True)
 
         self.tasks = []
@@ -194,23 +192,22 @@ class DataEntryApp:
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         self.root.geometry(f"{screen_width}x{screen_height - 80}+0+0")
-        self.root.resizable(False, False)
         self.root.wm_attributes("-topmost", True)
 
         self.create_widgets()
 
     def create_widgets(self):
         # Gasart
-        self.gasart_label = tk.Label(self.root, text="Projektnummer:", font=("Arial", 14))
-        self.gasart_label.grid(row=0, column=0, padx=(20, 10), pady=10, sticky="e")
-        self.gasart_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
-        self.gasart_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        self.projektnummer_label = tk.Label(self.root, text="Projektnummer:", font=("Arial", 14))
+        self.projektnummer_label.grid(row=0, column=0, padx=(20, 10), pady=10, sticky="e")
+        self.projektnummer_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
+        self.projektnummer_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
 
         # Projektnummer
-        self.projektnummer_label = tk.Label(self.root, text="Gasart:", font=("Arial", 14))
-        self.projektnummer_label.grid(row=1, column=0, padx=(20, 10), pady=10, sticky="e")
-        self.projektnummer_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
-        self.projektnummer_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+        self.gasart_label = tk.Label(self.root, text="Gasart:", font=("Arial", 14))
+        self.gasart_label.grid(row=1, column=0, padx=(20, 10), pady=10, sticky="e")
+        self.gasart_entry = tk.Entry(self.root, font=("Arial", 14), width=30)
+        self.gasart_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
         # Messplatz
         self.messplatz_label = tk.Label(self.root, text="Messplatz:", font=("Arial", 14))
@@ -234,26 +231,22 @@ class DataEntryApp:
             widget.grid_configure(padx=10, pady=5)
 
     def save_and_exit(self):
-        # Get data from entry fields
         global messplatz
+        global projektnummer
+        global gasart
+        global beschreibung
         gasart = self.gasart_entry.get()
         projektnummer = self.projektnummer_entry.get()
         messplatz = self.messplatz_entry.get()
         beschreibung = self.beschreibung_entry.get("1.0", tk.END)
 
 
-        # Save data to a file
-        with open("data.txt", "w") as file:
-            file.write(f" {gasart}\n")
-            file.write(f" {projektnummer}\n")
-            file.write(f" {beschreibung}\n")
-            # file.write(f" {messplatz}")
 
         messagebox.showinfo("Info", "Daten erfolgreich gespeichert!")
 
         # Close the window
         confirmation = messagebox.askyesno("Bestätigung",
-                                           "Stecker mit Sensor verbinden!\nIst der Stecker verbunden?")# "Achtung!!! Eine falsche Verbindung der Pins kann zu Schäden am Gerät führen.\nVerbinde die Adern mit den richtigen Pins!\n Pin2: Schwarze Ader\n Pin3: Rote Ader\n Pin4: Gelbe Ader\n Pin5: Weiße Ader\n Pin 5 ist der Pin in der Mitte des Sensors\n Haben Sie alle Adern ordnungsgemäß verbunden?")
+                                           "Stecker mit Sensor verbinden!\nIst der Stecker verbunden?")
 
         if confirmation:
             # Proceed to open the DataWindow
@@ -321,62 +314,63 @@ class DataWindow:
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
-        with open("data.txt", "r") as file:
-            projektnummer =file.readline()
-            gasart = file.readline()
-            beschreibung = file.readline()
-        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
-        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        output_filename = selected_baustelle + "_" + messplatz + ".xlsx"
-        output_filepath = f"{desktop_path}/{output_filename}"
-        workbook = xlsxwriter.Workbook(output_filepath)
-        worksheet = workbook.add_worksheet()
+        try:
+            abshumid = (Calc.absolute_humidity(float(str(self.data[0])),
+                                               float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
+            desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+            output_filename = selected_baustelle + "_" + messplatz + ".xlsx"
+            output_filepath = f"{desktop_path}/{output_filename}"
+            workbook = xlsxwriter.Workbook(output_filepath)
+            worksheet = workbook.add_worksheet()
 
-        worksheet.set_paper(9)
-        # Top: 1 Zoll, Bottom: 1 Zoll, Left: 0.75 Zoll, Right: 0.75 Zoll
-        worksheet.set_margins(top=0, bottom=0, left=0, right=0)
-        img_path = 'Briefbogen Aktuell 2021.png'
-        worksheet.set_column("A:F", 15.4)
-        worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
+            worksheet.set_paper(9)
+            worksheet.set_margins(top=0, bottom=0, left=0, right=0)
+            img_path = 'Briefbogen Aktuell 2021.png'
+            worksheet.set_column("A:F", 15.4)
+            worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
 
-        cell_format = workbook.add_format({
-            'font_size': 8,
-        })
-        cell_format1 = workbook.add_format({
-            'align': 'center'
-        })
-        merge_format = workbook.add_format({
-            'align': 'center',
-            'valign': 'vcenter',
-            # 'border': 1
-        })
-        # worksheet.set_column("A:G", 11.29)
+            cell_format = workbook.add_format({
+                'font_size': 8,
+            })
+            cell_format1 = workbook.add_format({
+                'align': 'center'
+            })
+            merge_format = workbook.add_format({
+                'align': 'center',
+                'valign': 'vcenter',
+                # 'border': 1
+            })
+            # worksheet.set_column("A:G", 11.29)
 
-        cell_format = workbook.add_format({
-            'font_size': 8,
-        })
-        worksheet.write("B16", "Prüfauftrag: Feuchtemessung")
-        worksheet.write("B17", "Projektnummer: " + projektnummer)
-        worksheet.write("D16", "Baustelle:" + selected_baustelle)
-        worksheet.write("B19", "Sensor: S220")
-        worksheet.write("D19", "Gasart: " + gasart)
-        worksheet.add_table('B20:E23', {'header_row': False})
-        table_values = [
-            ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
-            ["Einheit", "ppm", "%rH", "°C Td"],
-            ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
+            cell_format = workbook.add_format({
+                'font_size': 8,
+            })
+            worksheet.write("B16", "Prüfauftrag: Feuchtemessung")
+            worksheet.write("B17", "Projektnummer: " + projektnummer)
+            worksheet.write("D16", "Baustelle:" + selected_baustelle)
+            worksheet.write("B19", "Sensor: S220")
+            worksheet.write("D19", "Gasart: " + gasart)
+            worksheet.add_table('B20:E23', {'header_row': False})
+            table_values = [
+                ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
+                ["Einheit", "ppm", "%rH", "°C Td"],
+                ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
 
-        for i in range(0, len(table_values[0])):
-            worksheet.write(f"B{i + 20}", table_values[0][i])
-            worksheet.write(f"D{i + 20}", table_values[1][i])
-            worksheet.write(f"E{i + 20}", table_values[2][i])
+            for i in range(0, len(table_values[0])):
+                worksheet.write(f"B{i + 20}", table_values[0][i])
+                worksheet.write(f"D{i + 20}", table_values[1][i])
+                worksheet.write(f"E{i + 20}", table_values[2][i])
 
-        worksheet.write("B25", "MP1: " + messplatz)
-        worksheet.write("B26", "Prüfausdruck Nr.: " + str(1))
-        worksheet.write("B27", "Beschreibung: " + beschreibung)
-        worksheet.write("B50", "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)", cell_format)
-        workbook.close()
-        messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
+            worksheet.write("B25", "MP1: " + messplatz)
+            worksheet.write("B26", "Prüfausdruck Nr.: " + str(1))
+            worksheet.write("B27", "Beschreibung: " + beschreibung)
+            worksheet.write("B50",
+                            "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)",
+                            cell_format)
+            workbook.close()
+            messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
+        except:
+            messagebox.showinfo("Information","Fehler! Drück die Read Taste vor dem Dokumentieren!")
 
 
 if __name__ == "__main__":
