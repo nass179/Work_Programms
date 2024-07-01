@@ -5,11 +5,12 @@ output_filename = "test.xlsx"
 output_filepath = f"{desktop_path}/{output_filename}"
 workbook = xlsxwriter.Workbook(output_filepath)
 worksheet = workbook.add_worksheet()
+worksheet.set_paper(9)
 # Top: 1 Zoll, Bottom: 1 Zoll, Left: 0.75 Zoll, Right: 0.75 Zoll
-worksheet.set_margins(top=1, bottom=1, left=1)
-img_path = 'Logo1.jpg'
-worksheet.set_column("A:F", 13.17)
-worksheet.insert_image('B1', img_path, {'x_scale': 1, 'y_scale': 1, 'x_offset': 80, 'y_offset': 0})
+worksheet.set_margins(top=0, bottom=0, left=0, right=0)
+img_path = 'Briefbogen Aktuell 2021.png'
+worksheet.set_column("A:F", 15.4)
+worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
 
 cell_format = workbook.add_format({
     'font_size': 8,
@@ -20,20 +21,20 @@ cell_format1 = workbook.add_format({
 merge_format = workbook.add_format({
     'align': 'center',
     'valign': 'vcenter',
-    'border': 1
+    #'border': 1
 })
 
-worksheet.merge_range('C5:D5', 'Mitte von C und D', merge_format)
+'''worksheet.merge_range('C5:D5', 'Mitte von C und D', merge_format)
 worksheet.merge_range('C6:D6', 'Mitte von C und D', merge_format)
 worksheet.merge_range('C7:D7', 'Mitte von C und D', merge_format)
-worksheet.write("C5:D5", "Reinmediensysteme Planung")
-worksheet.write("C6", "Projektierung Montage")
-worksheet.write("C7", "Mess- und Steuerungstechnik")
+worksheet.write("C5:D5", "Reinmediensysteme ⋅ Planung", cell_format1)
+worksheet.write("C6", "Projektierung ⋅ Montage",cell_format1)
+worksheet.write("C7", "Mess- und Steuerungstechnik", cell_format1)'''
 
 worksheet.write("A10", "Prüfauftrag")
 worksheet.write("A11", "Projektnummer: P19-109")
-worksheet.write("C8", "Saatwinkler Damm 66, 13627 Berlin")
-worksheet.write("E10", "Baustelle: Baustelle test")
+#worksheet.write("C8", "Saatwinkler Damm 66, 13627 Berlin")
+worksheet.write("D10", "Baustelle: Baustelle test")
 #worksheet.write("E7", "Baustelle test")
 worksheet.write("B12", "Feuchtemessung")
 worksheet.write("B14", "Sensor: S220")

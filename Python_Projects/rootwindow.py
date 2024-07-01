@@ -332,43 +332,49 @@ class DataWindow:
         workbook = xlsxwriter.Workbook(output_filepath)
         worksheet = workbook.add_worksheet()
 
-        img_path = 'Logo.jpg'
-        worksheet.set_column("A:G", 11.29)
-        worksheet.insert_image('E1', img_path, {'x_scale': 0.2, 'y_scale': 0.2, 'x_offset': 10, 'y_offset': 5})
+        worksheet.set_paper(9)
+        # Top: 1 Zoll, Bottom: 1 Zoll, Left: 0.75 Zoll, Right: 0.75 Zoll
+        worksheet.set_margins(top=0, bottom=0, left=0, right=0)
+        img_path = 'Briefbogen Aktuell 2021.png'
+        worksheet.set_column("A:F", 15.4)
+        worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
 
         cell_format = workbook.add_format({
             'font_size': 8,
         })
-        worksheet.write("A1", "Prüfauftrag")
-        worksheet.write("A2", "Projektnummer: " + projektnummer )
-        worksheet.write("A6", "")
-        worksheet.write("A7", "")
-        worksheet.write("A8", "")
-        worksheet.write("A9", "")
-        worksheet.write("E4", "Saatwinkler Damm 66, 13627 Berlin")
-        worksheet.write("E6", "Baustelle:")
-        worksheet.write("E7", selected_baustelle)
-        worksheet.write("E8", "")
-        worksheet.write("E9", "")
-        worksheet.write("B11", "Feuchtemessung")
-        worksheet.write("B13", "Sensor: S220")
-        worksheet.write("D13", "Gasart: " + gasart)
-        worksheet.add_table('B15:E18', {'header_row': False})
+        cell_format1 = workbook.add_format({
+            'align': 'center'
+        })
+        merge_format = workbook.add_format({
+            'align': 'center',
+            'valign': 'vcenter',
+            # 'border': 1
+        })
+        # worksheet.set_column("A:G", 11.29)
+
+        cell_format = workbook.add_format({
+            'font_size': 8,
+        })
+        worksheet.write("B16", "Prüfauftrag: Feuchtemessung")
+        worksheet.write("B17", "Projektnummer: " + projektnummer)
+        worksheet.write("D16", "Baustelle:" + selected_baustelle)
+        worksheet.write("B19", "Sensor: S220")
+        worksheet.write("D19", "Gasart: " + gasart)
+        worksheet.add_table('B20:E23', {'header_row': False})
         table_values = [
             ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
             ["Einheit", "ppm", "%rH", "°C Td"],
             ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
 
         for i in range(0, len(table_values[0])):
-            worksheet.write(f"B{i + 15}", table_values[0][i])
-            worksheet.write(f"D{i + 15}", table_values[1][i])
-            worksheet.write(f"E{i + 15}", table_values[2][i])
+            worksheet.write(f"B{i + 20}", table_values[0][i])
+            worksheet.write(f"D{i + 20}", table_values[1][i])
+            worksheet.write(f"E{i + 20}", table_values[2][i])
 
-        worksheet.write("B20", "MP1: " + messplatz)
-        worksheet.write("B21", "Prüfausdruck Nr.: " + str(1))
-        worksheet.write("B22", "Beschreibung: " + beschreibung)
-        worksheet.write("A50", "Messbereich: -100 ... +20 °C Td", cell_format)
-        worksheet.write("C50", "Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)", cell_format)
+        worksheet.write("B25", "MP1: " + messplatz)
+        worksheet.write("B26", "Prüfausdruck Nr.: " + str(1))
+        worksheet.write("B27", "Beschreibung: " + beschreibung)
+        worksheet.write("B50", "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)", cell_format)
         workbook.close()
         messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
 
