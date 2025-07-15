@@ -302,7 +302,7 @@ class DataWindow:
         btn_dokumentieren.pack(pady=10)
 
     def update_labels(self):
-        self.data = Mc.client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
+        self.data = Mc.client('COM5', 19200, 3, 2, 2301, 8, 'd7af')
         abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
         self.tau_label.config(text="Drucktaupunkt: " + str(self.data[0]) + " °C")
         self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
