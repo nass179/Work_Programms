@@ -1,14 +1,17 @@
+import serial.tools.list_ports
 import tkinter as tk
 import tkinter.messagebox as messagebox
 import Modbus_Communication as Mc
 import os
 import Calc
 import xlsxwriter
+
 global selected_baustelle
 global messplatz
 global projektnummer
 global gasart
 global beschreibung
+
 
 class ModbusRTUClientApp:
     def __init__(self, root):
@@ -111,7 +114,7 @@ class Baustellenauswahl:
         btn_delete_all.pack(side="left")
 
         btn_open = tk.Button(self.btn_frame, text="Öffnen", fg='white', bg='#007bff', font=('Arial', 14),
-                             command=self.open_dataentryapp)
+                             command=self.open_data_entry_app)
         btn_open.pack(side="left", padx=(10, 0))
 
         self.update_listbox()
@@ -121,7 +124,8 @@ class Baustellenauswahl:
         if selected_task_index:
             selected_task = self.lb_tasks.get(selected_task_index)
             print(f"Double-clicked on: {selected_task}")
-            self.open_dataentryapp()
+            self.open_data_entry_app()
+
     def load_tasks(self):
         try:
             with open("baustellen.txt", "r") as file:
@@ -167,7 +171,7 @@ class Baustellenauswahl:
             self.save_tasks()
             messagebox.showinfo("Info", "Alle Baustellen wurden erfolgreich gelöscht.")
 
-    def open_dataentryapp(self):
+    def open_data_entry_app(self):
         selected_index = self.lb_tasks.curselection()
         if selected_index:
             global selected_baustelle
@@ -240,8 +244,6 @@ class DataEntryApp:
         messplatz = self.messplatz_entry.get()
         beschreibung = self.beschreibung_entry.get("1.0", tk.END)
 
-
-
         messagebox.showinfo("Info", "Daten erfolgreich gespeichert!")
 
         # Close the window
@@ -265,7 +267,8 @@ class DataEntryApp:
                                     )
         else:
             messagebox.showinfo("Information",
-                                "Zugriff verweigert! Bitte stellen Sie sicher, dass die Pins ordnungsgemäß verbunden sind",
+                                "Zugriff verweigert! Bitte stellen Sie sicher, dass die Pins ordnungsgemäß verbunden "
+                                "sind",
                                 )
 
 
@@ -287,13 +290,13 @@ class DataWindow:
         self.humidity_label = tk.Label(self.root, text="Relative Luftfeuchtigkeit: 0 %rH", font=('Arial', 18))
         self.pressure_label = tk.Label(self.root, text="Druck: 0 bar", font=('Arial', 18))
         self.temperature_label = tk.Label(self.root, text="Temperatur: 0 °C", font=('Arial', 18))
-        self.abshum_label = tk.Label(self.root, text="Abs. Luftfeuchtigkeit 0 ppm", font=('Arial', 18))
+        self.abs_hum_label = tk.Label(self.root, text="Abs. Luftfeuchtigkeit 0 ppm", font=('Arial', 18))
 
         self.tau_label.pack(pady=10)
         self.humidity_label.pack(pady=10)
         self.pressure_label.pack(pady=10)
         self.temperature_label.pack(pady=10)
-        self.abshum_label.pack(pady=10)
+        self.abs_hum_label.pack(pady=10)
 
         # Read button
         btn_read = tk.Button(self.root, text="Read", font=('Arial', 18), command=self.update_labels)
@@ -302,21 +305,26 @@ class DataWindow:
         btn_dokumentieren.pack(pady=10)
 
     def update_labels(self):
-        self.data = Mc.client('COM5', 19200, 3, 2, 2301, 8, 'd7af')
-        abshumid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
+        ports = serial.tools.list_ports.comports()
+        com_port = "COM5"
+        for port in ports:
+            if "USB Serial Port" in port.description:
+                com_port = port.device
+        self.data = Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        abs_humid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.998
         self.tau_label.config(text="Drucktaupunkt: " + str(self.data[0]) + " °C")
         self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
         self.pressure_label.config(text="Druck: " + str(self.data[2]) + " bar")
         self.temperature_label.config(text="Temperatur: " + str(self.data[3]) + " °C")
-        self.abshum_label.config(text="Abs. Luftfeuchtigkeit " + "{:.2f}".format(abshumid) + " ppm")
+        self.abs_hum_label.config(text="Abs. Luftfeuchtigkeit " + "{:.2f}".format(abs_humid) + " ppm")
 
         # Schedule the update every 1000 ms
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
         try:
-            abshumid = (Calc.absolute_humidity(float(str(self.data[0])),
-                                               float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
+            abs_humid = (Calc.absolute_humidity(float(str(self.data[0])),
+                                                float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             output_filename = selected_baustelle + "_" + messplatz + ".xlsx"
             output_filepath = f"{desktop_path}/{output_filename}"
@@ -328,7 +336,7 @@ class DataWindow:
             img_path = 'Briefbogen Aktuell 2021.png'
             worksheet.set_column("A:F", 15.4)
             worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
-
+            '''
             cell_format = workbook.add_format({
                 'font_size': 8,
             })
@@ -341,6 +349,7 @@ class DataWindow:
                 # 'border': 1
             })
             # worksheet.set_column("A:G", 11.29)
+            '''
 
             cell_format = workbook.add_format({
                 'font_size': 8,
@@ -354,7 +363,7 @@ class DataWindow:
             table_values = [
                 ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
                 ["Einheit", "ppm", "%rH", "°C Td"],
-                ["MP1", "{:.2f}".format(abshumid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
+                ["MP1", "{:.2f}".format(abs_humid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
 
             for i in range(0, len(table_values[0])):
                 worksheet.write(f"B{i + 20}", table_values[0][i])
@@ -365,12 +374,13 @@ class DataWindow:
             worksheet.write("B26", "Prüfausdruck Nr.: " + str(1))
             worksheet.write("B27", "Beschreibung: " + beschreibung)
             worksheet.write("B50",
-                            "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td (-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)",
+                            "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td ("
+                            "-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)",
                             cell_format)
             workbook.close()
             messagebox.showinfo("Info", "Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
-        except:
-            messagebox.showinfo("Information","Fehler! Drück die Read Taste vor dem Dokumentieren!")
+        except ValueError:
+            messagebox.showinfo("Information", "Fehler! Drück die Read Taste vor dem Dokumentieren!")
 
 
 if __name__ == "__main__":
