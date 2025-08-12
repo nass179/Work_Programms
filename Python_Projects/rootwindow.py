@@ -287,10 +287,10 @@ class DataWindow:
     def create_widgets(self):
         # Data labels
         self.tau_label = tk.Label(self.root, text="Drucktaupunkt: 0 °C", font=('Arial', 18))
-        self.humidity_label = tk.Label(self.root, text="Relative Luftfeuchtigkeit: 0 %rH", font=('Arial', 18))
+        self.humidity_label = tk.Label(self.root, text="Relative Feuchtigkeit: 0 %rH", font=('Arial', 18))
         self.pressure_label = tk.Label(self.root, text="Druck: 0 bar", font=('Arial', 18))
         self.temperature_label = tk.Label(self.root, text="Temperatur: 0 °C", font=('Arial', 18))
-        self.abs_hum_label = tk.Label(self.root, text="Abs. Luftfeuchtigkeit 0 ppm", font=('Arial', 18))
+        self.abs_hum_label = tk.Label(self.root, text="Abs. Feuchtigkeit 0 g/m³", font=('Arial', 18))
 
         self.tau_label.pack(pady=10)
         self.humidity_label.pack(pady=10)
@@ -311,20 +311,19 @@ class DataWindow:
             if "USB Serial Port" in port.description:
                 com_port = port.device
         self.data = Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
-        abs_humid = (Calc.absolute_humidity(float(str(self.data[0])), float(str(self.data[1]))) * 1000 * 24.45) / 31.998
+        abs_humid = (Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3]))))  # * 1000 * 24.45) / 31.998
         self.tau_label.config(text="Drucktaupunkt: " + str(self.data[0]) + " °C")
-        self.humidity_label.config(text="Relative Luftfeuchtigkeit: " + str(float(self.data[1])) + " %rH")
+        self.humidity_label.config(text="Relative Feuchtigkeit: " + str(float(self.data[1])) + " %rH")
         self.pressure_label.config(text="Druck: " + str(self.data[2]) + " bar")
         self.temperature_label.config(text="Temperatur: " + str(self.data[3]) + " °C")
-        self.abs_hum_label.config(text="Abs. Luftfeuchtigkeit " + "{:.2f}".format(abs_humid) + " ppm")
+        self.abs_hum_label.config(text="Abs. Feuchtigkeit " + "{:.2f}".format(abs_humid) + " g/m³")
 
         # Schedule the update every 1000 ms
         self.root.after(1000, self.update_labels)
 
     def create_file(self):
         try:
-            abs_humid = (Calc.absolute_humidity(float(str(self.data[0])),
-                                                float(str(self.data[1]))) * 1000 * 24.45) / 31.9988
+            abs_humid = (Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3]))))  # * 1000 * 24.45) / 31.9988
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             output_filename = selected_baustelle + "_" + messplatz + ".xlsx"
             output_filepath = f"{desktop_path}/{output_filename}"
@@ -361,8 +360,8 @@ class DataWindow:
             worksheet.write("D19", "Gasart: " + gasart)
             worksheet.add_table('B20:E23', {'header_row': False})
             table_values = [
-                ["Messgrößen", "Absolute Luftfeuchtigkeit", "Relative Luftfeuchtigkeit", "Drucktaupunkt"],
-                ["Einheit", "ppm", "%rH", "°C Td"],
+                ["Messgrößen", "Absolute Feuchtigkeit", "Relative Feuchtigkeit", "Taupunkt"],
+                ["Einheit", "g/m³", "%rH", "°C Td"],
                 ["MP1", "{:.2f}".format(abs_humid), str(self.data[1]), str(self.data[0]), str(self.data[3])]]
 
             for i in range(0, len(table_values[0])):
