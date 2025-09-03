@@ -5,6 +5,7 @@ import Modbus_Communication as Mc
 import os
 import Calc
 import xlsxwriter
+import subprocess
 
 global selected_baustelle
 global messplatz
@@ -35,11 +36,11 @@ class ModbusRTUClientApp:
         # Logo
         self.image_label = tk.Label(self.main_frame, image=self.logo)
         self.image_label.image = self.logo  # Keep a reference to the image
-        self.image_label.pack(pady=10)
+        self.image_label.pack(pady=10, anchor="center", expand=True)
 
         # Start button
-        btn_start = tk.Button(self.main_frame, text="Start", font=('Arial', 18), command=self.open_baustellenauswahl)
-        btn_start.pack(pady=10)
+        btn_start = tk.Button(self.main_frame, text="Start", font=('Arial', 40), command=self.open_baustellenauswahl)
+        btn_start.pack(pady=10, anchor="center", expand=True)
 
     def open_baustellenauswahl(self):
         self.root.withdraw()  # Hide root window
@@ -66,7 +67,7 @@ class Baustellenauswahl:
 
     def create_widgets(self):
         # Title
-        self.title = tk.Label(self.root, text="Baustellenauswahl", bg='lightgrey', font=("Helvetica", 20, "bold"))
+        self.title = tk.Label(self.root, text="Baustellenauswahl", bg='lightgrey', font=("Helvetica", 40, "bold"))
         self.title.pack(pady=(20, 10))
 
         # Task Entry
@@ -74,15 +75,15 @@ class Baustellenauswahl:
         self.txt_input_frame.pack(pady=(10, 20))
 
         self.txt_input_label = tk.Label(self.txt_input_frame, text="Neue Baustelle:", bg='lightgrey',
-                                        font=('Arial', 14))
+                                        font=('Arial', 20))
         self.txt_input_label.pack(side="left", padx=(10, 5))
 
-        self.txt_input = tk.Entry(self.txt_input_frame, width=50, font=('Arial', 14))
+        self.txt_input = tk.Entry(self.txt_input_frame, width=50, font=('Arial', 20))
         self.txt_input.pack(side="left", padx=5, pady=5)
         self.txt_input.bind('<Return>', self.add_task)  # Bind Enter key to add_task function
 
         self.btn_add_task = tk.Button(self.txt_input_frame, text="Hinzufügen", fg='white', bg='#007bff',
-                                      font=('Arial', 14), command=self.add_task)
+                                      font=('Arial', 25), command=self.add_task)
         self.btn_add_task.pack(side="left", padx=(5, 10))
 
         # Listbox frame
@@ -90,7 +91,7 @@ class Baustellenauswahl:
         self.lb_frame.pack(fill="both", expand=True)
 
         # Listbox
-        self.lb_tasks = tk.Listbox(self.lb_frame, width=80, height=15, font=('Arial', 14), selectbackground='#007bff',
+        self.lb_tasks = tk.Listbox(self.lb_frame, width=80, height=15, font=('Arial', 25), selectbackground='#007bff',
                                    selectforeground='white')
         self.lb_tasks.pack(side="left", padx=10, pady=10, fill="both", expand=True)
         self.lb_tasks.bind('<Double-Button-1>', self.on_double_click)  # Bind double click to on_double_click method
@@ -119,6 +120,7 @@ class Baustellenauswahl:
 
         self.update_listbox()
 
+    
     def on_double_click(self, event):
         selected_task_index = self.lb_tasks.curselection()
         if selected_task_index:
@@ -252,9 +254,7 @@ class DataEntryApp:
 
         if confirmation:
             # Proceed to open the DataWindow
-            confirmation = messagebox.askyesno("Bestätigung",
-                                               "Wird das Rohr durchflossen?",
-                                               )
+            confirmation = messagebox.askyesno("Bestätigung","Wird das Rohr durchflossen?",)
 
             if confirmation:
                 # Proceed to open the DataWindow
