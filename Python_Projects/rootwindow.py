@@ -105,6 +105,8 @@ class Baustellenauswahl:
         self.btn_frame = tk.Frame(self.root, bg='lightgrey')
         self.btn_frame.pack(fill="x", padx=10, pady=(20, 10))
 
+
+
         # Buttons
         btn_delete = tk.Button(self.btn_frame, text="Ausgewählte löschen", fg='white', bg='#dc3545', font=('Arial', 14),
                                command=self.delete_task)
