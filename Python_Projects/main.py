@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget,
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt
 import os
-#selected_baustelle = ""
+
 class HomePage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -53,7 +53,8 @@ class MainWindow(QMainWindow):
 
         self.home_page.btn_start.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page1))
         #self.page1.next_button.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page2))
-        self.page2.next_button.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page3))
+        self.page2.next_button.clicked.connect(lambda: self.go_to_data_window())
+        #self.page2.next_button.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page3))
         self.page2.back_button.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page1))
         #self.page1.lb_baustellen.itemDoubleClicked.connect(lambda: self.stacked.setCurrentWidget(self.page2))
         #self.page1.btn_open.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page2))
@@ -64,7 +65,73 @@ class MainWindow(QMainWindow):
         self.page2.update_baustelle_label()
         self.stacked.setCurrentWidget(self.page2)
 
+    # goes to datawindow if all confirmations are yes
+    def go_to_data_window(self):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Bestätigung")
+        msg.setText(
+            f"Haben Sie alle Daten korrekt eingegeben?\n\n"
+            f"Baustelle: {self.selected_baustelle}\n"
+            f"Projektnummer: {self.projektnummer_input.text()}\n"
+            f"Messplatz: {self.messplatz_input.text()}\n"
+            f"Gasart: {self.gasart_input.text()}\n"
+            f"Beschreibung: {self.beschreibung_input.toPlainText()}"
+        )
+        msg.setFont(QFont('Arial', 24))
+        msg.setIcon(QMessageBox.Question)
+        yes_btn = msg.addButton("Ja", QMessageBox.YesRole)
+        no_btn = msg.addButton("Nein", QMessageBox.NoRole)
+        yes_btn.setFont(QFont('Arial', 20))
+        no_btn.setFont(QFont('Arial', 20))
+        msg.exec_()
+        if msg.clickedButton() == yes_btn:
+            # Second confirmation
+            msg2 = QMessageBox(self)
+            msg2.setWindowTitle("Bestätigung")
+            msg2.setText("Haben Sie das Kabel an den Sensor angeschlossen?")
+            msg2.setFont(QFont('Arial', 24))
+            msg2.setIcon(QMessageBox.Question)
+            yes_btn2 = msg2.addButton("Ja", QMessageBox.YesRole)
+            no_btn2 = msg2.addButton("Nein", QMessageBox.NoRole)
+            yes_btn2.setFont(QFont('Arial', 20))
+            no_btn2.setFont(QFont('Arial', 20))
+            msg2.exec_()
+            if msg2.clickedButton() == yes_btn2:
+                # Third confirmation
+                msg3 = QMessageBox(self)
+                msg3.setWindowTitle("Bestätigung")
+                msg3.setText("Wird das Rohr durchflossen?")
+                msg3.setFont(QFont('Arial', 24))
+                msg3.setIcon(QMessageBox.Question)
+                yes_btn3 = msg3.addButton("Ja", QMessageBox.YesRole)
+                no_btn3 = msg3.addButton("Nein", QMessageBox.NoRole)
+                yes_btn3.setFont(QFont('Arial', 20))
+                no_btn3.setFont(QFont('Arial', 20))
+                msg3.exec_()
+                if msg3.clickedButton() == yes_btn3:
+                    self.stacked.setCurrentWidget(self.page3)
+                else:
+                    self.show_large_warning("Bitte stellen Sie sicher, dass das Rohr durchflossen wird.")
+                    #QMessageBox.warning(self, "Warning", "Bitte stellen Sie sicher, dass das Rohr durchflossen wird.")
+            else:
+                self.show_large_warning("Bitte schließen Sie das Kabel an den Sensor an.")
+                #QMessageBox.warning(self, "Warning", "Bitte schließen Sie das Kabel an den Sensor an.")
 
+    def show_large_warning(self, message):
+        msg = QMessageBox(self)
+        msg.setWindowTitle("Warnung")
+        msg.setText(message)
+        msg.setFont(QFont('Arial', 24))  # Large font for text
+        msg.setIcon(QMessageBox.Warning)
+        ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
+        ok_btn.setFont(QFont('Arial', 20))  # Large font for button
+        msg.exec_()
+
+'''
+======================================================================================
+=====================Baustellenauswahl Page========================================================
+======================================================================================
+'''
         
 
 class BaustellenauswahlPage(QWidget):
@@ -198,8 +265,12 @@ class BaustellenauswahlPage(QWidget):
                 self.baustellen = [line.strip() for line in file.readlines()]
         else:
             self.baustellen = []
-        
-
+    
+'''
+======================================================================================
+=====================Data Entry Page========================================================
+======================================================================================
+'''
 class DataEntryPage(QWidget):
     def __init__(self, main_window):
         super().__init__()
@@ -258,11 +329,61 @@ class DataEntryPage(QWidget):
         self.baustelle_label.setText(self.main_window.selected_baustelle)
         print(self.main_window.selected_baustelle)
 
+'''
+======================================================================================
+=====================Data Window Page========================================================  
+======================================================================================
+'''
 class DataWindowPage(QWidget):
     def __init__(self, parent):
         super().__init__()
+        self.init_ui()
+
+    def init_ui(self):
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("DataWindow"))
+        title_label = QLabel("Datenfenster")
+        title_label.setFont(QFont('Arial', 32))
+        title_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title_label)
+
+        self.tau_label = QLabel("Drucktaupunkt: 0 °C")
+        self.tau_label.setFont(QFont('Arial', 24))
+        self.tau_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.tau_label)
+
+        self.humidity_label = QLabel("Relative Feuchtigkeit: 0 %rH")
+        self.humidity_label.setFont(QFont('Arial', 24))
+        self.humidity_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.humidity_label)
+
+        self.pressure_label = QLabel("Druck: 0 bar")
+        self.pressure_label.setFont(QFont('Arial', 24))
+        self.pressure_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.pressure_label)
+
+        self.temperature_label = QLabel("Temperatur: 0 °C")
+        self.temperature_label.setFont(QFont('Arial', 24))
+        self.temperature_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.temperature_label)
+
+        self.abs_hum_label = QLabel("Abs. Feuchtigkeit 0 g/m³")
+        self.abs_hum_label.setFont(QFont('Arial', 24))
+        self.abs_hum_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.abs_hum_label)
+
+        # Buttons
+        btn_layout = QHBoxLayout()
+        self.btn_read = QPushButton("Lesen")
+        self.btn_read.setFont(QFont('Arial', 24))
+        self.btn_read.setMinimumSize(200, 80)
+        btn_layout.addWidget(self.btn_read)
+
+        self.btn_dokumentieren = QPushButton("Dokumentieren")
+        self.btn_dokumentieren.setFont(QFont('Arial', 24))
+        self.btn_dokumentieren.setMinimumSize(200, 80)
+        btn_layout.addWidget(self.btn_dokumentieren)
+
+        layout.addLayout(btn_layout)
         self.setLayout(layout)
 
 if __name__ == "__main__":
