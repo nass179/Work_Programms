@@ -150,57 +150,60 @@ class BaustellenauswahlPage(QWidget):
         title.setFont(QFont("Helvetica", 40, QFont.Bold))
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
-        self.next_button = QPushButton("Weiter zu DataEntry")
-        layout.addWidget(self.next_button)
 
         entry_layout = QHBoxLayout()
         entry_label = QLabel("Neue Baustelle:")
-        entry_label.setFont(QFont('Arial', 20))
+        entry_label.setFont(QFont('Arial', 30))
         entry_layout.addWidget(entry_label)
 
         self.txt_input = QLineEdit()
-        self.txt_input.setFont(QFont('Arial', 20))
-        self.txt_input.setFixedWidth(600)
+        self.txt_input.setFont(QFont('Arial', 30))
+        #self.txt_input.setFixedWidth(600)
         self.txt_input.returnPressed.connect(self.add_task)
         entry_layout.addWidget(self.txt_input)
 
         btn_add_task = QPushButton("Hinzufügen")
-        btn_add_task.setFont(QFont('Arial', 25))
+        btn_add_task.setFont(QFont('Arial', 30))
         btn_add_task.setStyleSheet("background-color: #007bff; color: white;")
+        btn_add_task.setMinimumSize(400, 80)
         btn_add_task.clicked.connect(self.add_task)
         entry_layout.addWidget(btn_add_task)
 
         # Listbox
+        list_layout = QVBoxLayout()
         self.lb_baustellen = QListWidget()
-        self.lb_baustellen.setFont(QFont('Arial', 25))
+        self.lb_baustellen.setFont(QFont('Arial', 30))
         self.lb_baustellen.setSelectionMode(self.lb_baustellen.SingleSelection)
         self.lb_baustellen.itemClicked.connect(self.handle_item_clicked)
-        layout.addWidget(self.lb_baustellen)
+        list_layout.addWidget(self.lb_baustellen)
 
         # Buttons
         btn_layout = QHBoxLayout()
         btn_delete = QPushButton("Ausgewählte löschen")
         btn_delete.setFont(QFont('Arial', 14))
         btn_delete.setStyleSheet("background-color: #dc3545; color: white;")
+        btn_delete.setMinimumHeight(80)
         btn_delete.clicked.connect(self.delete_baustelle)
         btn_layout.addWidget(btn_delete)
 
         btn_delete_all = QPushButton("Alle löschen")
         btn_delete_all.setFont(QFont('Arial', 14))
         btn_delete_all.setStyleSheet("background-color: #dc3545; color: white;")
+        btn_delete_all.setMinimumHeight(80)
         btn_delete_all.clicked.connect(self.delete_all)
         btn_layout.addWidget(btn_delete_all)
 
         self.btn_open = QPushButton("Öffnen")
         self.btn_open.setFont(QFont('Arial', 14))
+        self.btn_open.setMinimumHeight(80)
         self.btn_open.setStyleSheet("background-color: #007bff; color: white;")
         #self.btn_open.clicked.connect(lambda: self.handle_item_clicked())
+
         btn_layout.addWidget(self.btn_open)
 
-        layout.addLayout(btn_layout)
-
-
         layout.addLayout(entry_layout)
+        layout.addLayout(list_layout)
+        layout.addLayout(btn_layout)
         self.setLayout(layout)
     
     def handle_item_clicked(self):
