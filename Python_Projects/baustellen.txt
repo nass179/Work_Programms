@@ -1,8 +1,3 @@
-Baustelle1
-Baustelle2
-Baustelle3
-Baustelle4
-P24-005
-Baustelle 5
-new
-werkstadt
+Baustelle 1
+Baustelle 2
+Baustelle 3
