@@ -180,21 +180,21 @@ class BaustellenauswahlPage(QWidget):
         # Buttons
         btn_layout = QHBoxLayout()
         btn_delete = QPushButton("Ausgewählte löschen")
-        btn_delete.setFont(QFont('Arial', 14))
+        btn_delete.setFont(QFont('Arial', 30))
         btn_delete.setStyleSheet("background-color: #dc3545; color: white;")
         btn_delete.setMinimumHeight(80)
         btn_delete.clicked.connect(self.delete_baustelle)
         btn_layout.addWidget(btn_delete)
 
         btn_delete_all = QPushButton("Alle löschen")
-        btn_delete_all.setFont(QFont('Arial', 14))
+        btn_delete_all.setFont(QFont('Arial', 30))
         btn_delete_all.setStyleSheet("background-color: #dc3545; color: white;")
         btn_delete_all.setMinimumHeight(80)
         btn_delete_all.clicked.connect(self.delete_all)
         btn_layout.addWidget(btn_delete_all)
 
         self.btn_open = QPushButton("Öffnen")
-        self.btn_open.setFont(QFont('Arial', 14))
+        self.btn_open.setFont(QFont('Arial', 30))
         self.btn_open.setMinimumHeight(80)
         self.btn_open.setStyleSheet("background-color: #007bff; color: white;")
         #self.btn_open.clicked.connect(lambda: self.handle_item_clicked())
@@ -391,6 +391,7 @@ class DataWindowPage(QWidget):
 
 if __name__ == "__main__":
     app = QApplication([])
+    app.setStyle("Fusion")
     window = MainWindow()
     window.showMaximized()
     app.exec_()
