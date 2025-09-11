@@ -4,7 +4,21 @@ import struct
 
 
 class ModbusCommunication:
-    def __init__(self, com_port, baudrate, functioncode, slave_id, starting_register, num_of_regs, crc):
+    def __init__(self):
+        self.com_port = None
+        self.baudrate = None
+        self.functioncode = None
+        self.slave_id = None
+        self.starting_register = None
+        self.num_of_regs = None
+        self.crc = None
+
+        self.data = None
+
+    def add(self, a, b):
+        return a + b
+    
+    def client_connect(self, com_port, baudrate, functioncode, slave_id, starting_register, num_of_regs, crc):
         self.com_port = com_port
         self.baudrate = baudrate
         self.functioncode = functioncode
@@ -12,13 +26,6 @@ class ModbusCommunication:
         self.starting_register = starting_register
         self.num_of_regs = num_of_regs
         self.crc = crc
-
-        self.data = None
-
-    def add(self, a, b):
-        return a + b
-    
-    def client_connect(self):
         hex_start = hex(self.starting_register)
         hex_regs_num = hex(self.num_of_regs)
         hex_data = '0' + str(self.slave_id) + '0' + str(self.functioncode) + '0' + hex_start[2:5] + '000' + hex_regs_num[2:3] + self.crc
