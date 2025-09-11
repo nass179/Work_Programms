@@ -362,7 +362,7 @@ class DataWindowPage(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_labels)
         self.timer_running = False
-        self.Modbus = Mc.ModbusCommunication
+        self.Modbus = None
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -436,7 +436,8 @@ class DataWindowPage(QWidget):
         for port in ports:
             if "USB Serial Port" in port.description:
                 com_port = port.device
-        self.Modbus.client_connect(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        self.Modbus = Mc.ModbusCommunication(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        self.Modbus.client_connect()
 
 
         # self.update_labels()  # Einmal sofort aktualisieren
