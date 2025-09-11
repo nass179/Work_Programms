@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget,
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 import os
 
 import serial.tools.list_ports
@@ -14,6 +15,8 @@ import os
 import Calc
 import xlsxwriter
 import pandas as pd
+import subprocess
+
 class HomePage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -413,14 +416,14 @@ class DataWindowPage(QWidget):
         self.btn_dokumentieren.setStyleSheet("background-color: #28a745; color: white;")
         self.btn_dokumentieren.clicked.connect(self.create_file)
         btn_layout.addWidget(self.btn_dokumentieren)
-
+        
         self.btn_preview = QPushButton("Vorschau")
         self.btn_preview.setFont(QFont('Arial', 24))
         self.btn_preview.setMinimumSize(200, 80)
         self.btn_preview.setStyleSheet("background-color: #ffc107; color: black;")
-        self.btn_preview.clicked.connect(self.show_excel_preview)
+        self.btn_preview.clicked.connect(self.show_pdf_preview(self.output_filepath.replace('.xlsx', '.pdf')))
         btn_layout.addWidget(self.btn_preview)
-
+        
         layout.addLayout(btn_layout)
         self.setLayout(layout)
 
@@ -455,8 +458,8 @@ class DataWindowPage(QWidget):
             output_filename = (
                 f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
             )
-            output_filepath = os.path.join(desktop_path, output_filename)
-            workbook = xlsxwriter.Workbook(output_filepath)
+            self.output_filepath = os.path.join(desktop_path, output_filename)
+            workbook = xlsxwriter.Workbook(self.output_filepath)
             worksheet = workbook.add_worksheet()
             worksheet.set_paper(9)
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
@@ -498,6 +501,7 @@ class DataWindowPage(QWidget):
                 cell_format
             )
             workbook.close()
+            self.excel_to_pdf(self.output_filepath, self.output_filepath.replace('.xlsx', '.pdf'))
             # PyQt5 message box
             msg = QMessageBox(self)
             msg.setWindowTitle("Info")
@@ -521,8 +525,8 @@ class DataWindowPage(QWidget):
         output_filename = (
             f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
         )
-        output_filepath = os.path.join(desktop_path, output_filename)
-        if not os.path.exists(output_filepath):
+        self.output_filepath = os.path.join(desktop_path, output_filename)
+        if not os.path.exists(self.output_filepath):
             msg = QMessageBox(self)
             msg.setWindowTitle("Vorschau")
             msg.setText("Die Excel-Datei existiert noch nicht. Bitte zuerst dokumentieren!")
@@ -533,7 +537,7 @@ class DataWindowPage(QWidget):
             return
 
         try:
-            df = pd.read_excel(output_filepath)
+            df = pd.read_excel(self.output_filepath)
             html = df.to_html(index=False)
             preview_dialog = QDialog(self)
             preview_dialog.setWindowTitle("Excel-Vorschau")
@@ -558,6 +562,30 @@ class DataWindowPage(QWidget):
             ok_btn.setFont(QFont('Arial', 20))
             msg.exec_()
 
+    def excel_to_pdf(excel_path, pdf_path):
+    # LibreOffice must be installed!
+        subprocess.run([
+            "libreoffice",
+            "--headless",
+            "--convert-to", "pdf",
+            "--outdir", os.path.dirname(pdf_path),
+            excel_path
+        ])
+
+    def show_pdf_preview(self, pdf_path):
+        preview_dialog = QDialog(self)
+        preview_dialog.setWindowTitle("PDF-Vorschau")
+        preview_dialog.resize(900, 600)
+        layout = QVBoxLayout()
+        pdf_view = QWebEngineView()
+        pdf_view.load(QUrl.fromLocalFile(pdf_path))
+        layout.addWidget(pdf_view)
+        btn_close = QPushButton("Schließen")
+        btn_close.setFont(QFont('Arial', 20))
+        btn_close.clicked.connect(preview_dialog.accept)
+        layout.addWidget(btn_close)
+        preview_dialog.setLayout(layout)
+        preview_dialog.exec_()
 
 if __name__ == "__main__":
     app = QApplication([])
