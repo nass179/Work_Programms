@@ -436,8 +436,8 @@ class DataWindowPage(QWidget):
         for port in ports:
             if "USB Serial Port" in port.description:
                 com_port = port.device
-        self.Modbus = Mc(com_port, 19200, 3, 2, 2301, 8, 'd7af')
-        self.Modbus.client_connect()
+        self.Modbus = Mc()
+        self.Modbus.client_connect(com_port, 19200, 3, 2, 2301, 8, 'd7af')
 
 
         # self.update_labels()  # Einmal sofort aktualisieren
