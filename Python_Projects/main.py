@@ -441,7 +441,7 @@ class DataWindowPage(QWidget):
 
     def create_file(self):
         try:
-            abs_humid = 2#Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
+            abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             print(desktop_path)
             output_filename = (
