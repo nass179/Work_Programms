@@ -438,7 +438,7 @@ class DataWindowPage(QWidget):
                 com_port = port.device
         self.Modbus = Mc()
         self.Modbus.client_connect(com_port, 19200, 3, 2, 2301, 8, 'd7af')
-
+        self.data = self.Modbus.data
 
         # self.update_labels()  # Einmal sofort aktualisieren
         if not self.timer_running:
@@ -451,7 +451,7 @@ class DataWindowPage(QWidget):
         #for port in ports:
         #    if "USB Serial Port" in port.description:
         #        com_port = port.device
-        self.data = self.Modbus.data #Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        #self.data = self.Modbus.data #Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
         abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
 
         self.tau_label.setText(f"Taupunkt: {self.data[0]} °C")
