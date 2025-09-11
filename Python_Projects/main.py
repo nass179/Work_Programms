@@ -352,7 +352,7 @@ class DataEntryPage(QWidget):
 ======================================================================================
 '''
 class DataWindowPage(QWidget):
-    def __init__(self, parent):
+    def __init__(self, main_window):
         super().__init__()
         self.init_ui()
         self.timer = QTimer(self)
@@ -441,28 +441,26 @@ class DataWindowPage(QWidget):
 
     def create_file(self):
         try:
-            abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
+            abs_humid = 2#Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+            print(desktop_path)
             output_filename = (
                 f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
             )
             output_filepath = os.path.join(desktop_path, output_filename)
             workbook = xlsxwriter.Workbook(output_filepath)
             worksheet = workbook.add_worksheet()
-            print("=================================0")
             worksheet.set_paper(9)
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
             img_path = 'Briefbogen Aktuell 2021.png'
             worksheet.set_column("A:F", 15.4)
             worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
-            print("=================================1")
             
             print(self.main_window.selected_baustelle + " " + "Baustelle")
             print(self.main_window.projektnummer_input.text() + " " + "Projektnummer")
             print(self.main_window.messplatz_input.text()+ " " + "Messplatz")
             print(self.main_window.gasart_input.text()+ " " + "Gasart")
             print(self.main_window.beschreibung_input.toPlainText()+ " " + "Beschreibung")
-            print("=================================2")
 
             cell_format = workbook.add_format({'font_size': 8})
             worksheet.write("B16", "Prüfauftrag: Feuchtemessung")
@@ -471,20 +469,17 @@ class DataWindowPage(QWidget):
             worksheet.write("B19", "Sensor: S220")
             worksheet.write("D19", "Gasart: " + self.main_window.gasart_input.text())
             worksheet.add_table('B20:E23', {'header_row': False})
-            print("=================================3")
             table_values = [
                 ["Messgrößen", "Absolute Feuchtigkeit", "Relative Feuchtigkeit", "Taupunkt"],
                 ["Einheit", "g/m³", "%rH", "°C Td"],
                 ["MP1", f"{abs_humid:.2f}", str(self.data[1]), str(self.data[0]), str(self.data[3])]
             ]
-            print("=================================4")
 
             for i in range(len(table_values[0])):
                 worksheet.write(f"B{i + 20}", table_values[0][i])
                 worksheet.write(f"D{i + 20}", table_values[1][i])
                 worksheet.write(f"E{i + 20}", table_values[2][i])
             
-            print("=================================5")
             worksheet.write("B25", "MP1: " + self.main_window.messplatz_input.text())
             worksheet.write("B26", "Prüfausdruck Nr.: 1")
             worksheet.write("B27", "Beschreibung: " + self.main_window.beschreibung_input.toPlainText())
@@ -503,7 +498,8 @@ class DataWindowPage(QWidget):
             ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
             ok_btn.setFont(QFont('Arial', 20))
             msg.exec_()
-        except (ValueError, AttributeError):
+        except (ValueError, AttributeError) as e:
+            print(e)
             msg = QMessageBox(self)
             msg.setWindowTitle("Information")
             msg.setText("Fehler! Drück die Lesen Taste und versicher dich das die Daten gelesen werden vor dem Dokumentieren!")
