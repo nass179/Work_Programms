@@ -11,7 +11,7 @@ import os
 
 import serial.tools.list_ports
 #import Modbus_Communication as Mc
-import test as Mc
+from test import ModbusCommunication as Mc
 import os
 import Calc
 import xlsxwriter
@@ -436,7 +436,7 @@ class DataWindowPage(QWidget):
         for port in ports:
             if "USB Serial Port" in port.description:
                 com_port = port.device
-        self.Modbus = Mc.ModbusCommunication(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        self.Modbus = Mc(com_port, 19200, 3, 2, 2301, 8, 'd7af')
         self.Modbus.client_connect()
 
 
