@@ -11,7 +11,7 @@ import os
 
 import serial.tools.list_ports
 #import Modbus_Communication as Mc
-from test import ModbusCommunication as Mc
+from modbus_test import ModbusCommunication as Mc
 import os
 import Calc
 import xlsxwriter
