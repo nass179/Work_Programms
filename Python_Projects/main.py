@@ -422,7 +422,7 @@ class DataWindowPage(QWidget):
     
     def update_labels(self):
         ports = serial.tools.list_ports.comports()
-        com_port = "COM5"
+        com_port = "ttyUSB0" # ttyUSB0 for Linux
         for port in ports:
             if "USB Serial Port" in port.description:
                 com_port = port.device
@@ -491,7 +491,7 @@ class DataWindowPage(QWidget):
         except (ValueError, AttributeError):
             msg = QMessageBox(self)
             msg.setWindowTitle("Information")
-            msg.setText("Fehler! Drück die Read Taste vor dem Dokumentieren!")
+            msg.setText("Fehler! Drück die Lesen Taste und versicher dich das die Daten gelesen werden vor dem Dokumentieren!")
             msg.setFont(QFont('Arial', 24))
             ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
             ok_btn.setFont(QFont('Arial', 20))
