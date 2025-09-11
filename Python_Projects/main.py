@@ -399,7 +399,7 @@ class DataWindowPage(QWidget):
         self.btn_read.setFont(QFont('Arial', 24))
         self.btn_read.setMinimumSize(200, 80)
         self.btn_read.setStyleSheet("background-color: #007bff; color: white;")
-        self.btn_read.clicked.connect(self.update_labels)
+        self.btn_read.clicked.connect(self.start_timer_and_update)
         btn_layout.addWidget(self.btn_read)
 
         self.btn_dokumentieren = QPushButton("Dokumentieren")
