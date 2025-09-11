@@ -353,7 +353,7 @@ class DataWindowPage(QWidget):
         self.init_ui()
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_labels)
-        self.timer.running = False
+        self.timer_running = False
 
     def init_ui(self):
         layout = QVBoxLayout()
