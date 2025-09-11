@@ -37,9 +37,13 @@ class MainWindow(QMainWindow):
 
         self.selected_baustelle = ""
         self.messplatz_input = QLineEdit()
+        self.messplatz_input.setPlaceholderText("MP1")
         self.projektnummer_input = QLineEdit()
+        self.projektnummer_input.setPlaceholderText("P25-001")
         self.gasart_input = QLineEdit()
+        self.gasart_input.setPlaceholderText("N2")
         self.beschreibung_input = QTextEdit()
+        self.beschreibung_input.setPlaceholderText("Hier Beschreibung eingeben...")
 
         self.setWindowTitle("Feuchtemessung")
         self.setGeometry(0, 0, 1200, 800)
@@ -368,7 +372,7 @@ class DataWindowPage(QWidget):
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
 
-        self.tau_label = QLabel("Drucktaupunkt: 0 °C")
+        self.tau_label = QLabel("Taupunkt: 0 °C")
         self.tau_label.setFont(QFont('Arial', 24))
         self.tau_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.tau_label)
@@ -377,12 +381,12 @@ class DataWindowPage(QWidget):
         self.humidity_label.setFont(QFont('Arial', 24))
         self.humidity_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.humidity_label)
-
+        '''
         self.pressure_label = QLabel("Druck: 0 bar")
         self.pressure_label.setFont(QFont('Arial', 24))
         self.pressure_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.pressure_label)
-
+        '''
         self.temperature_label = QLabel("Temperatur: 0 °C")
         self.temperature_label.setFont(QFont('Arial', 24))
         self.temperature_label.setAlignment(Qt.AlignCenter)
@@ -429,15 +433,17 @@ class DataWindowPage(QWidget):
         self.data = Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
         abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
 
-        self.tau_label.setText(f"Drucktaupunkt: {self.data[0]} °C")
+        self.tau_label.setText(f"Taupunkt: {self.data[0]} °C")
         self.humidity_label.setText(f"Relative Feuchtigkeit: {float(self.data[1])} %rH")
-        self.pressure_label.setText(f"Druck: {self.data[2]} bar")
+        #self.pressure_label.setText(f"Druck: {self.data[2]} bar")
         self.temperature_label.setText(f"Temperatur: {self.data[3]} °C")
         self.abs_hum_label.setText(f"Abs. Feuchtigkeit {abs_humid:.2f} g/m³")
 
     def create_file(self):
         try:
+            print("1")
             abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
+            print("2")
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             output_filename = (
                 f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
@@ -451,6 +457,13 @@ class DataWindowPage(QWidget):
             img_path = 'Briefbogen Aktuell 2021.png'
             worksheet.set_column("A:F", 15.4)
             worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
+
+            
+            print(self.main_window.selected_baustelle + " " + "Baustelle")
+            print(self.main_window.projektnummer_input.text() + " " + "Projektnummer")
+            print(self.main_window.messplatz_input.text()+ " " + "Messplatz")
+            print(self.main_window.gasart_input.text()+ " " + "Gasart")
+            print(self.main_window.beschreibung_input.toPlainText()+ " " + "Beschreibung")
 
             cell_format = workbook.add_format({'font_size': 8})
             worksheet.write("B16", "Prüfauftrag: Feuchtemessung")
