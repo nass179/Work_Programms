@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget,
                               QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
 )
 from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import os
 
@@ -362,7 +362,6 @@ class DataWindowPage(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_labels)
         self.timer_running = False
-        self.output_filepath = ""
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -422,7 +421,7 @@ class DataWindowPage(QWidget):
         self.btn_preview.setFont(QFont('Arial', 24))
         self.btn_preview.setMinimumSize(200, 80)
         self.btn_preview.setStyleSheet("background-color: #ffc107; color: black;")
-        self.btn_preview.clicked.connect(self.show_pdf_preview(self.output_filepath.replace('.xlsx', '.pdf')))
+        self.btn_preview.clicked.connect(self.show_pdf_preview)
         btn_layout.addWidget(self.btn_preview)
         
         layout.addLayout(btn_layout)
@@ -459,8 +458,8 @@ class DataWindowPage(QWidget):
             output_filename = (
                 f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
             )
-            self.output_filepath = os.path.join(desktop_path, output_filename)
-            workbook = xlsxwriter.Workbook(self.output_filepath)
+            output_filepath = os.path.join(desktop_path, output_filename)
+            workbook = xlsxwriter.Workbook(output_filepath)
             worksheet = workbook.add_worksheet()
             worksheet.set_paper(9)
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
@@ -502,7 +501,7 @@ class DataWindowPage(QWidget):
                 cell_format
             )
             workbook.close()
-            self.excel_to_pdf(self.output_filepath, self.output_filepath.replace('.xlsx', '.pdf'))
+            self.excel_to_pdf(output_filepath, output_filepath.replace('.xlsx', '.pdf'))
             # PyQt5 message box
             msg = QMessageBox(self)
             msg.setWindowTitle("Info")
@@ -526,8 +525,8 @@ class DataWindowPage(QWidget):
         output_filename = (
             f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
         )
-        self.output_filepath = os.path.join(desktop_path, output_filename)
-        if not os.path.exists(self.output_filepath):
+        output_filepath = os.path.join(desktop_path, output_filename)
+        if not os.path.exists(output_filepath):
             msg = QMessageBox(self)
             msg.setWindowTitle("Vorschau")
             msg.setText("Die Excel-Datei existiert noch nicht. Bitte zuerst dokumentieren!")
@@ -538,7 +537,7 @@ class DataWindowPage(QWidget):
             return
 
         try:
-            df = pd.read_excel(self.output_filepath)
+            df = pd.read_excel(output_filepath)
             html = df.to_html(index=False)
             preview_dialog = QDialog(self)
             preview_dialog.setWindowTitle("Excel-Vorschau")
@@ -573,7 +572,12 @@ class DataWindowPage(QWidget):
             excel_path
         ])
 
-    def show_pdf_preview(self, pdf_path):
+    def show_pdf_preview(self):
+        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        pdf_name = (
+            f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.pdf"
+        )
+        pdf_path = os.path.join(desktop_path, pdf_name)
         preview_dialog = QDialog(self)
         preview_dialog.setWindowTitle("PDF-Vorschau")
         preview_dialog.resize(900, 600)
