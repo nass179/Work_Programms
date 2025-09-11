@@ -422,7 +422,7 @@ class DataWindowPage(QWidget):
     
     def update_labels(self):
         ports = serial.tools.list_ports.comports()
-        com_port = "ttyUSB0" # ttyUSB0 for Linux
+        com_port = "/dev/ttyUSB0" # ttyUSB0 for Linux
         for port in ports:
             if "USB Serial Port" in port.description:
                 com_port = port.device
