@@ -5,8 +5,14 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget,
                               QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit
 )
 from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 import os
+
+import serial.tools.list_ports
+import Modbus_Communication as Mc
+import os
+import Calc
+import xlsxwriter
 
 class HomePage(QWidget):
     def __init__(self, parent=None):
@@ -60,6 +66,8 @@ class MainWindow(QMainWindow):
         #self.page1.btn_open.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page2))
         self.page1.lb_baustellen.itemDoubleClicked.connect(lambda: self.go_to_data_entry())
         self.page1.btn_open.clicked.connect(lambda: self.go_to_data_entry())
+
+        self.page3.back_button2.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page2))
 
     def go_to_data_entry(self):
         self.page2.update_baustelle_label()
@@ -312,10 +320,12 @@ class DataEntryPage(QWidget):
         self.back_button = QPushButton("Zurück")
         self.back_button.setFont(QFont('Arial', 24))           # Larger font
         self.back_button.setMinimumSize(200, 80)               # Larger button
+        self.back_button.setStyleSheet("background-color: #dc3545; color: white;")
 
         self.next_button = QPushButton("Weiter zum Datenfenster")
         self.next_button.setFont(QFont('Arial', 24))           # Larger font
         self.next_button.setMinimumSize(200, 80)               # Larger button
+        self.next_button.setStyleSheet("background-color: #007bff; color: white;")
 
         nav_layout.addWidget(self.back_button, alignment=Qt.AlignLeft)
         nav_layout.addStretch(1)
@@ -341,9 +351,18 @@ class DataWindowPage(QWidget):
     def __init__(self, parent):
         super().__init__()
         self.init_ui()
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_labels)
+        self.timer.running = False
 
     def init_ui(self):
         layout = QVBoxLayout()
+        self.back_button2 = QPushButton("Zurück")
+        self.back_button2.setFont(QFont('Arial', 24))           # Larger font
+        self.back_button2.setMinimumSize(200, 80)  
+        self.back_button2.setStyleSheet("background-color: #dc3545; color: white;")
+        layout.addWidget(self.back_button2, stretch=1)
+
         title_label = QLabel("Datenfenster")
         title_label.setFont(QFont('Arial', 32))
         title_label.setAlignment(Qt.AlignCenter)
@@ -379,15 +398,106 @@ class DataWindowPage(QWidget):
         self.btn_read = QPushButton("Lesen")
         self.btn_read.setFont(QFont('Arial', 24))
         self.btn_read.setMinimumSize(200, 80)
+        self.btn_read.setStyleSheet("background-color: #007bff; color: white;")
+        self.btn_read.clicked.connect(self.update_labels)
         btn_layout.addWidget(self.btn_read)
 
         self.btn_dokumentieren = QPushButton("Dokumentieren")
         self.btn_dokumentieren.setFont(QFont('Arial', 24))
         self.btn_dokumentieren.setMinimumSize(200, 80)
+        self.btn_dokumentieren.setStyleSheet("background-color: #28a745; color: white;")
+        self.btn_dokumentieren.clicked.connect(self.create_file)
         btn_layout.addWidget(self.btn_dokumentieren)
 
         layout.addLayout(btn_layout)
         self.setLayout(layout)
+
+    
+
+    def start_timer_and_update(self):
+        self.update_labels()  # Einmal sofort aktualisieren
+        if not self.timer_running:
+            self.timer.start(1000)  # Startet den Timer
+            self.timer_running = True
+    
+    def update_labels(self):
+        ports = serial.tools.list_ports.comports()
+        com_port = "COM5"
+        for port in ports:
+            if "USB Serial Port" in port.description:
+                com_port = port.device
+        self.data = Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
+
+        self.tau_label.setText(f"Drucktaupunkt: {self.data[0]} °C")
+        self.humidity_label.setText(f"Relative Feuchtigkeit: {float(self.data[1])} %rH")
+        self.pressure_label.setText(f"Druck: {self.data[2]} bar")
+        self.temperature_label.setText(f"Temperatur: {self.data[3]} °C")
+        self.abs_hum_label.setText(f"Abs. Feuchtigkeit {abs_humid:.2f} g/m³")
+
+    def create_file(self):
+        try:
+            abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
+            desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+            output_filename = (
+                f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
+            )
+            output_filepath = os.path.join(desktop_path, output_filename)
+            workbook = xlsxwriter.Workbook(output_filepath)
+            worksheet = workbook.add_worksheet()
+
+            worksheet.set_paper(9)
+            worksheet.set_margins(top=0, bottom=0, left=0, right=0)
+            img_path = 'Briefbogen Aktuell 2021.png'
+            worksheet.set_column("A:F", 15.4)
+            worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
+
+            cell_format = workbook.add_format({'font_size': 8})
+            worksheet.write("B16", "Prüfauftrag: Feuchtemessung")
+            worksheet.write("B17", "Projektnummer: " + self.main_window.projektnummer_input.text())
+            worksheet.write("D16", "Baustelle:" + self.main_window.selected_baustelle)
+            worksheet.write("B19", "Sensor: S220")
+            worksheet.write("D19", "Gasart: " + self.main_window.gasart_input.text())
+            worksheet.add_table('B20:E23', {'header_row': False})
+            table_values = [
+                ["Messgrößen", "Absolute Feuchtigkeit", "Relative Feuchtigkeit", "Taupunkt"],
+                ["Einheit", "g/m³", "%rH", "°C Td"],
+                ["MP1", f"{abs_humid:.2f}", str(self.data[1]), str(self.data[0]), str(self.data[3])]
+            ]
+
+            for i in range(len(table_values[0])):
+                worksheet.write(f"B{i + 20}", table_values[0][i])
+                worksheet.write(f"D{i + 20}", table_values[1][i])
+                worksheet.write(f"E{i + 20}", table_values[2][i])
+
+            worksheet.write("B25", "MP1: " + self.main_window.messplatz_input.text())
+            worksheet.write("B26", "Prüfausdruck Nr.: 1")
+            worksheet.write("B27", "Beschreibung: " + self.main_window.beschreibung_input.toPlainText())
+            worksheet.write(
+                "B50",
+                "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td ("
+                "-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)",
+                cell_format
+            )
+            workbook.close()
+            # PyQt5 message box
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Info")
+            msg.setText("Daten erfolgreich dokumentiert!\nDokument ist auf dem Desktop gespeichert!")
+            msg.setFont(QFont('Arial', 24))
+            ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
+            ok_btn.setFont(QFont('Arial', 20))
+            msg.exec_()
+        except (ValueError, AttributeError):
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Information")
+            msg.setText("Fehler! Drück die Read Taste vor dem Dokumentieren!")
+            msg.setFont(QFont('Arial', 24))
+            ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
+            ok_btn.setFont(QFont('Arial', 20))
+            msg.exec_()
+            
+
 
 if __name__ == "__main__":
     app = QApplication([])
