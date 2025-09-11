@@ -563,7 +563,7 @@ class DataWindowPage(QWidget):
             ok_btn.setFont(QFont('Arial', 20))
             msg.exec_()
 
-    def excel_to_pdf(excel_path, pdf_path):
+    def excel_to_pdf(self, excel_path, pdf_path):
     # LibreOffice must be installed!
         subprocess.run([
             "libreoffice",
