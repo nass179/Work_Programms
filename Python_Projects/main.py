@@ -501,7 +501,8 @@ class DataWindowPage(QWidget):
                 cell_format
             )
             workbook.close()
-            self.excel_to_pdf(output_filepath, (output_filepath.replace('.xlsx', '.pdf')))
+            pdf_path = output_filepath.replace('.xlsx', '.pdf')
+            self.excel_to_pdf(output_filepath, pdf_path)
             # PyQt5 message box
             msg = QMessageBox(self)
             msg.setWindowTitle("Info")
