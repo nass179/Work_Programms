@@ -10,7 +10,8 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 import os
 
 import serial.tools.list_ports
-import Modbus_Communication as Mc
+#import Modbus_Communication as Mc
+import test as Mc
 import os
 import Calc
 import xlsxwriter
@@ -296,7 +297,6 @@ class DataEntryPage(QWidget):
         
         self.init_ui()
 
-        
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -362,6 +362,7 @@ class DataWindowPage(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_labels)
         self.timer_running = False
+        self.Modbus = Mc.ModbusCommunication
 
     def init_ui(self):
         layout = QVBoxLayout()
@@ -430,18 +431,26 @@ class DataWindowPage(QWidget):
     
 
     def start_timer_and_update(self):
-        self.update_labels()  # Einmal sofort aktualisieren
-        if not self.timer_running:
-            self.timer.start(1000)  # Startet den Timer
-            self.timer_running = True
-    
-    def update_labels(self):
         ports = serial.tools.list_ports.comports()
-        com_port = "/dev/ttyUSB0" # ttyUSB0 for Linux
+        com_port = "/dev/ttyUSB0" # /dev/ttyUSB0 for Linux
         for port in ports:
             if "USB Serial Port" in port.description:
                 com_port = port.device
-        self.data = Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+        self.Modbus.client_connect(com_port, 19200, 3, 2, 2301, 8, 'd7af')
+
+
+        # self.update_labels()  # Einmal sofort aktualisieren
+        if not self.timer_running:
+            self.timer.start(1000)
+            self.timer_running = True
+    
+    def update_labels(self):
+        #ports = serial.tools.list_ports.comports()
+        com_port = "/dev/ttyUSB0" # ttyUSB0 for Linux  COM5 for Windows
+        #for port in ports:
+        #    if "USB Serial Port" in port.description:
+        #        com_port = port.device
+        self.data = self.Modbus.data #Mc.client(com_port, 19200, 3, 2, 2301, 8, 'd7af')
         abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
 
         self.tau_label.setText(f"Taupunkt: {self.data[0]} °C")
