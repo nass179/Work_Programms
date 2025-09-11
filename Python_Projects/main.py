@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget, QVBoxLayout,
                               QPushButton, QLabel, QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                               QFormLayout,
-                              QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit
+                              QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QTimer
@@ -13,7 +13,7 @@ import Modbus_Communication as Mc
 import os
 import Calc
 import xlsxwriter
-
+import pandas as pd
 class HomePage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -414,6 +414,13 @@ class DataWindowPage(QWidget):
         self.btn_dokumentieren.clicked.connect(self.create_file)
         btn_layout.addWidget(self.btn_dokumentieren)
 
+        self.btn_preview = QPushButton("Vorschau")
+        self.btn_preview.setFont(QFont('Arial', 24))
+        self.btn_preview.setMinimumSize(200, 80)
+        self.btn_preview.setStyleSheet("background-color: #ffc107; color: black;")
+        self.btn_preview.clicked.connect(self.show_excel_preview)
+        btn_layout.addWidget(self.btn_preview)
+
         layout.addLayout(btn_layout)
         self.setLayout(layout)
 
@@ -508,7 +515,48 @@ class DataWindowPage(QWidget):
             ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
             ok_btn.setFont(QFont('Arial', 20))
             msg.exec_()
-            
+    
+    def show_excel_preview(self):
+        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        output_filename = (
+            f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
+        )
+        output_filepath = os.path.join(desktop_path, output_filename)
+        if not os.path.exists(output_filepath):
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Vorschau")
+            msg.setText("Die Excel-Datei existiert noch nicht. Bitte zuerst dokumentieren!")
+            msg.setFont(QFont('Arial', 24))
+            ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
+            ok_btn.setFont(QFont('Arial', 20))
+            msg.exec_()
+            return
+
+        try:
+            df = pd.read_excel(output_filepath)
+            html = df.to_html(index=False)
+            preview_dialog = QDialog(self)
+            preview_dialog.setWindowTitle("Excel-Vorschau")
+            preview_dialog.resize(900, 600)
+            layout = QVBoxLayout()
+            text_browser = QTextBrowser()
+            text_browser.setHtml(html)
+            layout.addWidget(text_browser)
+            btn_close = QPushButton("Schließen")
+            btn_close.setFont(QFont('Arial', 20))
+            btn_close.clicked.connect(preview_dialog.accept)
+            layout.addWidget(btn_close)
+            preview_dialog.setLayout(layout)
+            preview_dialog.exec_()
+        except Exception as e:
+            print("Fehler bei der Vorschau:", e)
+            msg = QMessageBox(self)
+            msg.setWindowTitle("Fehler")
+            msg.setText("Die Excel-Datei konnte nicht gelesen werden.")
+            msg.setFont(QFont('Arial', 24))
+            ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
+            ok_btn.setFont(QFont('Arial', 20))
+            msg.exec_()
 
 
 if __name__ == "__main__":
