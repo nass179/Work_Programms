@@ -354,6 +354,7 @@ class DataEntryPage(QWidget):
 class DataWindowPage(QWidget):
     def __init__(self, main_window):
         super().__init__()
+        self.main_window = main_window
         self.init_ui()
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_labels)
