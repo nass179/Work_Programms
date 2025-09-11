@@ -449,7 +449,7 @@ class DataWindowPage(QWidget):
             output_filepath = os.path.join(desktop_path, output_filename)
             workbook = xlsxwriter.Workbook(output_filepath)
             worksheet = workbook.add_worksheet()
-
+            print("=================================0")
             worksheet.set_paper(9)
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
             img_path = 'Briefbogen Aktuell 2021.png'
