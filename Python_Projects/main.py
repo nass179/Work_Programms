@@ -362,6 +362,7 @@ class DataWindowPage(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_labels)
         self.timer_running = False
+        self.output_filepath = ""
 
     def init_ui(self):
         layout = QVBoxLayout()
