@@ -467,7 +467,7 @@ class DataWindowPage(QWidget):
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
             img_path = 'Briefbogen Aktuell 2021.png'
             worksheet.set_column("A:F", 15.4)
-            worksheet.insert_image('A1', img_path, {'x_scale': 0.8, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
+            worksheet.insert_image('A1', img_path, {'x_scale': 0.5, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
             
             print(self.main_window.selected_baustelle + " " + "Baustelle")
             print(self.main_window.projektnummer_input.text() + " " + "Projektnummer")
