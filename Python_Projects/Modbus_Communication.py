@@ -7,12 +7,12 @@ def client(com_port, baudrate, functioncode, slave_id, starting_register, num_of
     hex_start = hex(starting_register)
     hex_regs_num = hex(num_of_regs)
     hex_data = '0' + str(slave_id) + '0' + str(functioncode) + '0' + hex_start[2:5] + '000' + hex_regs_num[2:3] + crc
-    print(hex_data)
+    #print(hex_data)
 
     try:
         ser = serial.Serial(com_port, baudrate)
         if ser.is_open:
-            print(f"Connected to {com_port} at {baudrate} baud.")
+            #print(f"Connected to {com_port} at {baudrate} baud.")
             # Read data from the serial port
             while True:
                 if ser.in_waiting > 0:
@@ -39,10 +39,10 @@ def client(com_port, baudrate, functioncode, slave_id, starting_register, num_of
                     temperature = struct.unpack('>f', sorted_byte_data3)
                     formatted_temperature = "{:.2f}".format(temperature[0])
 
-                    print(dewpoint)
-                    print(rel_humidity)
-                    print(pressure)
-                    print(temperature)
+                    #print(dewpoint)
+                    #print(rel_humidity)
+                    #print(pressure)
+                    #print(temperature)
 
                     data = [formatted_dewpoint, formatted_rel_humidity, formatted_pressure, formatted_temperature]
                     return data
@@ -57,7 +57,7 @@ def client(com_port, baudrate, functioncode, slave_id, starting_register, num_of
     finally:
         if ser.is_open:
             ser.close()
-            print("Serial port closed.")
+            #print("Serial port closed.")
 
 
 '''data = client('COM6', 19200, 3, 2, 2301, 8, 'd7af')
