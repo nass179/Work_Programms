@@ -467,6 +467,7 @@ class DataWindowPage(QWidget):
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
             img_path = 'Briefbogen Aktuell 2021.png'
             worksheet.set_column("A:F", 15.4)
+            worksheet.fit_to_pages(1, 1)
             worksheet.insert_image('A1', img_path, {'x_scale': 0.7, 'y_scale': 0.8, 'x_offset': 0, 'y_offset': 0})
             
             print(self.main_window.selected_baustelle + " " + "Baustelle")
@@ -503,6 +504,7 @@ class DataWindowPage(QWidget):
                 "-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)",
                 cell_format
             )
+
             workbook.close()
             pdf_path = output_filepath.replace('.xlsx', '.pdf')
             self.excel_to_pdf(output_filepath, pdf_path)
