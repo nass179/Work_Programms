@@ -578,6 +578,7 @@ class DataWindowPage(QWidget):
         pdf_name = (
             f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.pdf"
         )
+        print("PDF name:", pdf_name)
         pdf_path = os.path.join(desktop_path, pdf_name)
         os.system("xdg-open " + pdf_path) 
         '''
