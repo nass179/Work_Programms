@@ -499,7 +499,7 @@ class DataWindowPage(QWidget):
             worksheet.write("B26", "Prüfausdruck Nr.: 1")
             worksheet.write("B27", "Beschreibung: " + self.main_window.beschreibung_input.toPlainText())
             worksheet.write(
-                "B50",
+                "B60",
                 "Messbereich: -100 ... +20 °C Td   Genauigkeit: ± 1 °C Td (0 ... 20 °C Td); ± 2 °C Td ("
                 "-60 ... 0 °C Td); ± 3 °C (-100 ... -60 °C Td)",
                 cell_format
