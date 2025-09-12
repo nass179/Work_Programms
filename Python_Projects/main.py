@@ -570,12 +570,12 @@ class DataWindowPage(QWidget):
 class MyLineEdit(QLineEdit):
     def focusInEvent(self, event):
         super().focusInEvent(event)
-        os.system("onboard &")  # or "matchbox-keyboard &"
+        os.system("florence &")  # or "matchbox-keyboard &"
 
 class MyTextEdit(QTextEdit):
     def focusInEvent(self, event):
         super().focusInEvent(event)
-        os.system("onboard &")
+        os.system("florence &")
 
 if __name__ == "__main__":
     app = QApplication([])
