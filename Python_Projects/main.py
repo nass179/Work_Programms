@@ -455,8 +455,10 @@ class DataWindowPage(QWidget):
             abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             print(desktop_path)
+            baustelle = self.main_window.selected_baustelle.replace(" ", "")
+            messplatz = self.main_window.messplatz_input.text().replace(" ", "")
             output_filename = (
-                f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
+                f"{baustelle}_{messplatz}.xlsx"
             )
             output_filepath = os.path.join(desktop_path, output_filename)
             workbook = xlsxwriter.Workbook(output_filepath)
@@ -521,47 +523,6 @@ class DataWindowPage(QWidget):
             ok_btn.setFont(QFont('Arial', 20))
             msg.exec_()
     
-    def show_excel_preview(self):
-        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-        output_filename = (
-            f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.xlsx"
-        )
-        output_filepath = os.path.join(desktop_path, output_filename)
-        if not os.path.exists(output_filepath):
-            msg = QMessageBox(self)
-            msg.setWindowTitle("Vorschau")
-            msg.setText("Die Excel-Datei existiert noch nicht. Bitte zuerst dokumentieren!")
-            msg.setFont(QFont('Arial', 24))
-            ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
-            ok_btn.setFont(QFont('Arial', 20))
-            msg.exec_()
-            return
-
-        try:
-            df = pd.read_excel(output_filepath)
-            html = df.to_html(index=False)
-            preview_dialog = QDialog(self)
-            preview_dialog.setWindowTitle("Excel-Vorschau")
-            preview_dialog.resize(900, 600)
-            layout = QVBoxLayout()
-            text_browser = QTextBrowser()
-            text_browser.setHtml(html)
-            layout.addWidget(text_browser)
-            btn_close = QPushButton("Schließen")
-            btn_close.setFont(QFont('Arial', 20))
-            btn_close.clicked.connect(preview_dialog.accept)
-            layout.addWidget(btn_close)
-            preview_dialog.setLayout(layout)
-            preview_dialog.exec_()
-        except Exception as e:
-            print("Fehler bei der Vorschau:", e)
-            msg = QMessageBox(self)
-            msg.setWindowTitle("Fehler")
-            msg.setText("Die Excel-Datei konnte nicht gelesen werden.")
-            msg.setFont(QFont('Arial', 24))
-            ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
-            ok_btn.setFont(QFont('Arial', 20))
-            msg.exec_()
 
     def excel_to_pdf(self, excel_path, pdf_path):
     # LibreOffice must be installed!
@@ -575,8 +536,10 @@ class DataWindowPage(QWidget):
 
     def show_pdf_preview(self):
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        baustelle = self.main_window.selected_baustelle.replace(" ", "")
+        messplatz = self.main_window.messplatz_input.text().replace(" ", "")
         pdf_name = (
-            f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.pdf"
+            f"{baustelle}_{messplatz}.pdf"
         )
         print("PDF name:", pdf_name)
         pdf_path = os.path.join(desktop_path, pdf_name)
