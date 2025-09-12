@@ -579,6 +579,8 @@ class DataWindowPage(QWidget):
             f"{self.main_window.selected_baustelle}_{self.main_window.messplatz_input.text()}.pdf"
         )
         pdf_path = os.path.join(desktop_path, pdf_name)
+        os.system("xdg-open " + pdf_path) 
+        '''
         print("PDF path:", pdf_path)
         print("PDF exists:", os.path.exists(pdf_path))
         print("PDF size:", os.path.getsize(pdf_path) if os.path.exists(pdf_path) else "File not found")
@@ -595,6 +597,7 @@ class DataWindowPage(QWidget):
         layout.addWidget(btn_close)
         preview_dialog.setLayout(layout)
         preview_dialog.exec_()
+        '''
 
 if __name__ == "__main__":
     app = QApplication([])
