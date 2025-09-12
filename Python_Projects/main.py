@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget, QVBoxLayout,
                               QPushButton, QLabel, QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                               QFormLayout,
-                              QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
+                              MyLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QTimer, QUrl
@@ -39,13 +39,13 @@ class MainWindow(QMainWindow):
         print("MainWindow init")
 
         self.selected_baustelle = ""
-        self.messplatz_input = QLineEdit()
+        self.messplatz_input = MyLineEdit()
         self.messplatz_input.setPlaceholderText("MP1")
-        self.projektnummer_input = QLineEdit()
+        self.projektnummer_input = MyLineEdit()
         self.projektnummer_input.setPlaceholderText("P25-001")
-        self.gasart_input = QLineEdit()
+        self.gasart_input = MyLineEdit()
         self.gasart_input.setPlaceholderText("N2")
-        self.beschreibung_input = QTextEdit()
+        self.beschreibung_input = MyTextEdit()
         self.beschreibung_input.setPlaceholderText("Hier Beschreibung eingeben...")
 
         self.setWindowTitle("Feuchtemessung")
@@ -171,7 +171,7 @@ class BaustellenauswahlPage(QWidget):
         entry_label.setFont(QFont('Arial', 30))
         entry_layout.addWidget(entry_label)
 
-        self.txt_input = QLineEdit()
+        self.txt_input = MyLineEdit()
         self.txt_input.setFont(QFont('Arial', 30))
         #self.txt_input.setFixedWidth(600)
         self.txt_input.returnPressed.connect(self.add_task)
@@ -565,6 +565,17 @@ class DataWindowPage(QWidget):
         preview_dialog.setLayout(layout)
         preview_dialog.exec_()
         '''
+
+
+class MyLineEdit(MyLineEdit):
+    def focusInEvent(self, event):
+        super().focusInEvent(event)
+        os.system("onboard &")  # or "matchbox-keyboard &"
+
+class MyTextEdit(QTextEdit):
+    def focusInEvent(self, event):
+        super().focusInEvent(event)
+        os.system("onboard &")
 
 if __name__ == "__main__":
     app = QApplication([])
