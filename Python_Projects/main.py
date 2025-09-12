@@ -483,9 +483,9 @@ class DataWindowPage(QWidget):
             worksheet.write("D19", "Gasart: " + self.main_window.gasart_input.text())
             worksheet.add_table('B20:E23', {'header_row': False})
             table_values = [
-                ["Messgrößen", "Absolute Feuchtigkeit", "Relative Feuchtigkeit", "Taupunkt"],
-                ["Einheit", "g/m³", "%rH", "°C Td"],
-                ["MP1", f"{abs_humid:.2f}", str(self.data[1]), str(self.data[0]), str(self.data[3])]
+                ["Messgrößen: ", "Absolute Feuchtigkeit", "Relative Feuchtigkeit", "Taupunkt"],
+                ["Einheit: ", "g/m³", "%rH", "°C Td"],
+                ["Messplatz: " + self.main_window.messplatz_input.text(), f"{abs_humid:.2f}", str(self.data[1]), str(self.data[0]), str(self.data[3])]
             ]
 
             for i in range(len(table_values[0])):
