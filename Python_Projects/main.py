@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget, QVBoxLayout,
                               QPushButton, QLabel, QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                               QFormLayout,
-                              MyLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
+                              QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QTimer, QUrl
@@ -567,7 +567,7 @@ class DataWindowPage(QWidget):
         '''
 
 
-class MyLineEdit(MyLineEdit):
+class MyLineEdit(QLineEdit):
     def focusInEvent(self, event):
         super().focusInEvent(event)
         os.system("onboard &")  # or "matchbox-keyboard &"
