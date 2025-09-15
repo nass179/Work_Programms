@@ -485,8 +485,8 @@ class DataWindowPage(QWidget):
         try:
             abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-            excel_path = os.path.join(desktop_path, 'Messprotokoll.xlsx', 'Excel')
-            pdf_path = os.path.join(desktop_path, 'Messprotokoll.xlsx', 'Pdf')
+            excel_path = os.path.join(desktop_path, 'Excel', 'Messprotokoll.xlsx')
+            pdf_path = os.path.join(desktop_path, 'Pdf', 'Messprotokoll.pdf')
             print(desktop_path)
             baustelle = self.main_window.selected_baustelle.replace(" ", "")
             messplatz = self.main_window.messplatz_input.text().replace(" ", "")
