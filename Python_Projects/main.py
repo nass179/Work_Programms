@@ -485,8 +485,8 @@ class DataWindowPage(QWidget):
         try:
             abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-            excel_path = os.path.join(desktop_path, 'Excel', 'Messprotokoll.xlsx')
-            pdf_path = os.path.join(desktop_path, 'Pdf', 'Messprotokoll.pdf')
+            excel_path = os.path.join(desktop_path, 'Messprotokolle', 'Excel')
+            pdf_path = os.path.join(desktop_path, 'Messprotokolle', 'Pdf')
             print(desktop_path)
             baustelle = self.main_window.selected_baustelle.replace(" ", "")
             messplatz = self.main_window.messplatz_input.text().replace(" ", "")
@@ -572,13 +572,14 @@ class DataWindowPage(QWidget):
 
     def show_pdf_preview(self):
         desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        pdf_filepath = os.path.join(desktop_path, 'Messprotokolle', 'Pdf')
         baustelle = self.main_window.selected_baustelle.replace(" ", "")
         messplatz = self.main_window.messplatz_input.text().replace(" ", "")
         pdf_name = (
             f"{baustelle}_{messplatz}.pdf"
         )
         print("PDF name:", pdf_name)
-        pdf_path = os.path.join(desktop_path, pdf_name)
+        pdf_path = os.path.join(pdf_filepath, pdf_name)
         os.system("xdg-open " + pdf_path) 
         '''
         print("PDF path:", pdf_path)
