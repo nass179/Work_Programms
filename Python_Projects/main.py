@@ -81,12 +81,14 @@ class MainWindow(QMainWindow):
 
         self.installEventFilter(self)
     
+    # event handler for window size change
     def changeEvent(self, event):
         if event.type() == QEvent.WindowStateChange:
             if self.windowState() == Qt.WindowNoState:
                 self.showMaximized()
         super().changeEvent(event)
-
+    
+    # event filter to close keyboard when clicking outside text input
     def eventFilter(self, obj, event):
         if event.type() == event.MouseButtonPress:
             focused_widget = QApplication.focusWidget()
@@ -98,20 +100,6 @@ class MainWindow(QMainWindow):
                 except Exception as e:
                     print("Could not close keyboard:", e)
         return super().eventFilter(obj, event)
-    '''
-    def eventFilter(self, obj, event):
-        if event.type() == event.MouseButtonPress:
-            widget = self.childAt(event.pos())
-            # If not a text input, close the keyboard
-            if not isinstance(widget, (MyLineEdit, MyTextEdit)):
-                try:
-                    bus = SessionBus()
-                    osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
-                    osk.SetVisible(False)
-                except Exception as e:
-                    print("Could not close keyboard:", e)
-        return super().eventFilter(obj, event)
-    '''
 
     def go_to_data_entry(self):
         self.page2.update_baustelle_label()
@@ -164,19 +152,17 @@ class MainWindow(QMainWindow):
                     self.stacked.setCurrentWidget(self.page3)
                 else:
                     self.show_large_warning("Bitte stellen Sie sicher, dass das Rohr durchflossen wird.")
-                    #QMessageBox.warning(self, "Warning", "Bitte stellen Sie sicher, dass das Rohr durchflossen wird.")
             else:
                 self.show_large_warning("Bitte schließen Sie das Kabel an den Sensor an.")
-                #QMessageBox.warning(self, "Warning", "Bitte schließen Sie das Kabel an den Sensor an.")
 
     def show_large_warning(self, message):
         msg = QMessageBox(self)
         msg.setWindowTitle("Warnung")
         msg.setText(message)
-        msg.setFont(QFont('Arial', 24))  # Large font for text
+        msg.setFont(QFont('Arial', 24))  
         msg.setIcon(QMessageBox.Warning)
         ok_btn = msg.addButton("OK", QMessageBox.AcceptRole)
-        ok_btn.setFont(QFont('Arial', 20))  # Large font for button
+        ok_btn.setFont(QFont('Arial', 20))  
         msg.exec_()
 
 '''
@@ -249,7 +235,7 @@ class BaustellenauswahlPage(QWidget):
         self.btn_open.setFont(QFont('Arial', 30))
         self.btn_open.setMinimumHeight(80)
         self.btn_open.setStyleSheet("background-color: #007bff; color: white;")
-        #self.btn_open.clicked.connect(lambda: self.handle_item_clicked())
+
 
         btn_layout.addWidget(self.btn_open)
 
@@ -262,7 +248,7 @@ class BaustellenauswahlPage(QWidget):
         selected_items = self.lb_baustellen.selectedItems()
         if selected_items:
             self.selected_baustelle = selected_items[0].text()
-            self.main_window.selected_baustelle = self.selected_baustelle  # <-- update parent
+            self.main_window.selected_baustelle = self.selected_baustelle  
             print("Selected Baustelle:", self.selected_baustelle)
             print("Main Window Selected Baustelle:", self.main_window.selected_baustelle)
 
@@ -338,13 +324,10 @@ class DataEntryPage(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
         self.next_button = QPushButton("Weiter zu DataWindow")
-        #layout.addWidget(QLabel("DataEntry"))
-        #layout.addWidget(self.next_button, alignment=Qt.AlignBottom)
 
         formlayout = QFormLayout()
-        #global selected_baustelle
         print("Selected Baustelle in DataEntryPage:", self.main_window.selected_baustelle)
-        self.baustelle_label = QLabel(self.main_window.selected_baustelle)  # <-- store reference!
+        self.baustelle_label = QLabel(self.main_window.selected_baustelle)
         self.baustelle_label.setFont(QFont('Arial', 20))
         formlayout.addRow("Baustelle:", self.baustelle_label)
         self.main_window.projektnummer_input.setFont(QFont('Arial', 20))
@@ -352,23 +335,21 @@ class DataEntryPage(QWidget):
         self.main_window.gasart_input.setFont(QFont('Arial', 20))
         self.main_window.beschreibung_input.setFont(QFont('Arial', 20))
         formlayout.addRow("Projektnummer:", self.main_window.projektnummer_input)
-        #formlayout.addRow("Datum:", QLabel("2024-10-01"))
         formlayout.addRow("Messplatz:", self.main_window.messplatz_input)
         formlayout.addRow("Gasart:", self.main_window.gasart_input)
         formlayout.addRow("Beschreibung:", self.main_window.beschreibung_input)
 
-        formlayout.setVerticalSpacing(20)  # Increase space between rows
+        formlayout.setVerticalSpacing(20) 
         layout.addLayout(formlayout)
-        # Navigation buttons
         nav_layout = QHBoxLayout()
         self.back_button = QPushButton("Zurück")
-        self.back_button.setFont(QFont('Arial', 24))           # Larger font
-        self.back_button.setMinimumSize(200, 80)               # Larger button
+        self.back_button.setFont(QFont('Arial', 24))
+        self.back_button.setMinimumSize(200, 80)
         self.back_button.setStyleSheet("background-color: #dc3545; color: white;")
 
         self.next_button = QPushButton("Weiter zum Datenfenster")
-        self.next_button.setFont(QFont('Arial', 24))           # Larger font
-        self.next_button.setMinimumSize(200, 80)               # Larger button
+        self.next_button.setFont(QFont('Arial', 24))
+        self.next_button.setMinimumSize(200, 80)
         self.next_button.setStyleSheet("background-color: #007bff; color: white;")
 
         nav_layout.addWidget(self.back_button, alignment=Qt.AlignLeft)
@@ -380,9 +361,7 @@ class DataEntryPage(QWidget):
         self.setLayout(layout)
 
     def update_baustelle_label(self):
-        # Update the Baustelle label when navigating to this page
         print("Updating Baustelle label in DataEntryPage:", self.main_window.selected_baustelle)
-        # Assuming the first row is the Baustelle row
         self.baustelle_label.setText(self.main_window.selected_baustelle)
         print(self.main_window.selected_baustelle)
 
@@ -438,7 +417,6 @@ class DataWindowPage(QWidget):
         self.abs_hum_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.abs_hum_label)
 
-        # Buttons
         btn_layout = QHBoxLayout()
         self.btn_read = QPushButton("Lesen")
         self.btn_read.setFont(QFont('Arial', 24))
@@ -469,7 +447,7 @@ class DataWindowPage(QWidget):
     def start_timer_and_update(self):
         self.update_labels()  # Einmal sofort aktualisieren
         if not self.timer_running:
-            self.timer.start(1000)  # Startet den Timer
+            self.timer.start(1000)
             self.timer_running = True
     
     def update_labels(self):
