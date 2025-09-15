@@ -17,3 +17,7 @@ time.sleep(3)
 
 # Hide the keyboard
 osk.SetVisible(False)
+time.sleep(1)
+osk.SetVisible(True)
+time.sleep(3)
+osk.SetVisible(False)
