@@ -16,6 +16,8 @@ import Calc
 import xlsxwriter
 import pandas as pd
 import subprocess
+from pydbus import SessionBus
+from gi.repository import GLib
 
 class HomePage(QWidget):
     def __init__(self, parent=None):
@@ -570,12 +572,16 @@ class DataWindowPage(QWidget):
 class MyLineEdit(QLineEdit):
     def focusInEvent(self, event):
         super().focusInEvent(event)
-        os.system("squeekboard &")  # or "matchbox-keyboard &"
+        bus = SessionBus()
+        osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
+        osk.SetVisible(True)
 
 class MyTextEdit(QTextEdit):
     def focusInEvent(self, event):
         super().focusInEvent(event)
-        os.system("squeekboard &")
+        bus = SessionBus()
+        osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
+        osk.SetVisible(True)
 
 if __name__ == "__main__":
     app = QApplication([])
