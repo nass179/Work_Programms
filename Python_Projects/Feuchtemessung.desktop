@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Feuchtemessung
+Exec=/home/nass179/Desktop/Work_Programms/Python_Projects/main.py
+Icon=/home/nass179/Desktop/Work_Programms/Python_Projects/ultratube_logo.png
+Terminal=false
