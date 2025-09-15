@@ -78,6 +78,23 @@ class MainWindow(QMainWindow):
 
         self.page3.back_button2.clicked.connect(lambda: self.stacked.setCurrentWidget(self.page2))
 
+
+        self.installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        if event.type() == event.MouseButtonPress:
+            widget = self.childAt(event.pos())
+            # If not a text input, close the keyboard
+            if not isinstance(widget, (MyLineEdit, MyTextEdit)):
+                try:
+                    bus = SessionBus()
+                    osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
+                    osk.SetVisible(False)
+                except Exception as e:
+                    print("Could not close keyboard:", e)
+        return super().eventFilter(obj, event)
+
+
     def go_to_data_entry(self):
         self.page2.update_baustelle_label()
         self.stacked.setCurrentWidget(self.page2)
