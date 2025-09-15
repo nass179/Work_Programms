@@ -80,6 +80,12 @@ class MainWindow(QMainWindow):
 
 
         self.installEventFilter(self)
+    
+    def changeEvent(self, event):
+        if event.type() == Qt.WindowStateChange:
+            if self.windowState() == Qt.WindowNoState:
+                self.showMaximized()
+        super().changeEvent(event)
 
     def eventFilter(self, obj, event):
         if event.type() == event.MouseButtonPress:
