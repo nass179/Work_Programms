@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget,
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QTimer, QUrl, QEvent
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+#from PyQt5.QtWebEngineWidgets import QWebEngineView
 import os
 
 import serial.tools.list_ports
@@ -14,7 +14,7 @@ import Modbus_Communication as Mc
 import os
 import Calc
 import xlsxwriter
-import pandas as pd
+#import pandas as pd
 import subprocess
 from pydbus import SessionBus
 from gi.repository import GLib
