@@ -576,12 +576,24 @@ class MyLineEdit(QLineEdit):
         osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
         osk.SetVisible(True)
 
+    def focusOutEvent(self, event):
+        super().focusOutEvent(event)
+        bus = SessionBus()
+        osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
+        osk.SetVisible(False)
+
 class MyTextEdit(QTextEdit):
     def focusInEvent(self, event):
         super().focusInEvent(event)
         bus = SessionBus()
         osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
         osk.SetVisible(True)
+
+    def focusOutEvent(self, event):
+        super().focusOutEvent(event)
+        bus = SessionBus()
+        osk = bus.get("sm.puri.OSK0", "/sm/puri/OSK0")
+        osk.SetVisible(False)
 
 if __name__ == "__main__":
     app = QApplication([])
