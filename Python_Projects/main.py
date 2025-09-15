@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QStackedWidget, QWidget,
                               QLineEdit, QListWidget, QMessageBox, QScrollBar, QDialog, QTextEdit, QTextBrowser
 )
 from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QTimer, QUrl
+from PyQt5.QtCore import Qt, QTimer, QUrl, QEvent
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import os
 
@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
         self.installEventFilter(self)
     
     def changeEvent(self, event):
-        if event.type() == Qt.WindowStateChange:
+        if event.type() == QEvent.WindowStateChange:
             if self.windowState() == Qt.WindowNoState:
                 self.showMaximized()
         super().changeEvent(event)
