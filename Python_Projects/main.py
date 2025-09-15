@@ -485,14 +485,17 @@ class DataWindowPage(QWidget):
         try:
             abs_humid = Calc.absolute_humidity(float(str(self.data[1])), float(str(self.data[3])))
             desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+            excel_path = os.path.join(desktop_path, 'Messprotokoll.xlsx', 'Excel')
+            pdf_path = os.path.join(desktop_path, 'Messprotokoll.xlsx', 'Pdf')
             print(desktop_path)
             baustelle = self.main_window.selected_baustelle.replace(" ", "")
             messplatz = self.main_window.messplatz_input.text().replace(" ", "")
             output_filename = (
                 f"{baustelle}_{messplatz}.xlsx"
             )
-            output_filepath = os.path.join(desktop_path, output_filename)
-            workbook = xlsxwriter.Workbook(output_filepath)
+            excel_filepath = os.path.join(excel_path, output_filename)
+            pdf_filepath = os.path.join(pdf_path, output_filename.replace('.xlsx', '.pdf'))
+            workbook = xlsxwriter.Workbook(excel_filepath)
             worksheet = workbook.add_worksheet()
             worksheet.set_paper(9)
             worksheet.set_margins(top=0, bottom=0, left=0, right=0)
@@ -537,8 +540,7 @@ class DataWindowPage(QWidget):
             )
 
             workbook.close()
-            pdf_path = output_filepath.replace('.xlsx', '.pdf')
-            self.excel_to_pdf(output_filepath, pdf_path)
+            self.excel_to_pdf(excel_filepath, pdf_filepath)
             # PyQt5 message box
             msg = QMessageBox(self)
             msg.setWindowTitle("Info")
